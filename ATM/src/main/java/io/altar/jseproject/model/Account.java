@@ -16,28 +16,21 @@ public class Account extends BaseEntity {
 
 
 	private static final long serialVersionUID = 1L;
-	private long balance;
-	private int pin;
+
+	
 	@ManyToOne (cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private Client user;
+	private int pin;
 
+	
 	public Account() {
 	}
 
-	public Account(long balance, int pin, Client user) {
-		super();
-		this.balance = balance;
+	public Account(int pin, Client user) {
 		this.pin = pin;
 		this.user = user;
 	}
 
-	public long getBalance() {
-		return balance;
-	}
-
-	public void setBalance(long balance) {
-		this.balance = balance;
-	}
 
 	public int getPin() {
 		return pin;
@@ -47,14 +40,7 @@ public class Account extends BaseEntity {
 		this.pin = pin;
 	}
 
-	public Client getUser() {
-		return user;
-	}
-
-	public void setUser(Client user) {
-		this.user = user;
-	}
-
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
