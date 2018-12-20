@@ -8,7 +8,7 @@
 		
 		<!-- Implementação do JPA -->
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<jta-data-source>java:/stockManagementDS</jta-data-source>
+		<jta-data-source>java:/ATMDS</jta-data-source>
 		<properties>
 
 		
