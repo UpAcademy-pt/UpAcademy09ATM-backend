@@ -18,40 +18,54 @@ public class Account extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	
-	@ManyToOne (cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@ManyToOne (cascade= {CascadeType.ALL})
 	private Client user;
-	private int pin;
+	private Double balance;
 
 	
+	public Account(Client user, Double balance) {
+		this.user = user;
+		this.balance = balance;
+	}
+
+
 	public Account() {
 	}
 
-	public Account(int pin, Client user) {
-		this.pin = pin;
+	
+	
+
+	public Client getUser() {
+		return user;
+	}
+
+
+
+
+	public void setUser(Client user) {
 		this.user = user;
 	}
 
 
-	public int getPin() {
-		return pin;
+
+
+	public Double getBalance() {
+		return balance;
 	}
 
-	public void setPin(int pin) {
-		this.pin = pin;
+
+
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
 	}
 
-	
+
+
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	
-//	public String toString() {
-//		return "Shelf [id=" + ShelfRepository.getIdDefinitivo() + "Capacity=" + Capacity + ", RentPrice=" + RentPrice
-//				+ "Product" + productId.getId() + "]";
-//	}
-
-
 
 }
 

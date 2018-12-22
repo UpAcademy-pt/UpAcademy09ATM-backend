@@ -1,12 +1,12 @@
 package io.altar.jseproject.repository;
 
-import io.altar.jseproject.model.Movements;
+import io.altar.jseproject.model.Movement;
 
-public class MovementRepository extends EntityRepository<Movements> {
+public class MovementRepository extends EntityRepository<Movement> {
 
 	@Override
-	protected Class<Movements> getEntityClass() {
-		return Movements.class;
+	protected Class<Movement> getEntityClass() {
+		return Movement.class;
 	}
 	
 	@Override

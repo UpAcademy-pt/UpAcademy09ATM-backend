@@ -1,13 +1,8 @@
 package io.altar.jseproject.Business;
 
-//import javax.sound.sampled.Port;
+import io.altar.jseproject.model.Client;
+import io.altar.jseproject.repository.ClientRepository;
 
-public class ClientBusiness {
-
-//transferir para conta
-//levantar dinheiro
-//consultar saldo: no ecrã/Por mail/imprimir talão
-//
-//consultar movimentos:no ecrã/Por mail/imprimir talão
+public class ClientBusiness extends EntityBusiness<ClientRepository, Client> {
 
 }

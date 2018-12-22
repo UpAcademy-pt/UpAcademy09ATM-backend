@@ -11,14 +11,23 @@ import javax.persistence.OneToMany;
 @NamedQuery(name = "findAllClients", query = "SELECT c FROM Client c")
 public class Client extends BaseEntity {
 
-
 	private static final long serialVersionUID = 1L;
-	private String name;
-	private String email;
-	private String password;
-	private long tel;
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Account> accountlist;
+	private String name;
+	private String email;
+	private String password;// numerica, a comunicação do cliente com o ATM vão ser botões de 1-9
+	private long tel;
+
+	
+	public Client(List<Account> accountlist, String name, String email, String password, long tel) {
+		this.accountlist = accountlist;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.tel = tel;
+	}
 
 	public Client() {
 	}
