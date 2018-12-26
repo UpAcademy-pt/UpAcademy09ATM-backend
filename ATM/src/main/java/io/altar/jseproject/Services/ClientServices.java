@@ -9,16 +9,17 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 //import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-//import javax.ws.rs.PathParam;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import io.altar.jseproject.Business.ClientBusiness;
+import io.altar.jseproject.model.Client;
 //import io.altar.jseproject.model.Client;
 
-@Path("/atm")
+@Path("/cliente")
 public class ClientServices implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,16 +34,16 @@ public class ClientServices implements Serializable {
 	@Path("/health")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String health() {
-		return "ok";
+		return "client is ok";
 	}
 
-//	@GET
-//	@Path("/{id}")
-//	@Produces("application/json")
-//	public Client getBalanceById(@PathParam("id") long id) {
-//
-//		return (Client) cb.findById(id);
-//	}
+	@GET
+	@Path("/{id}")
+	@Produces("application/json")
+	public Client getBalanceById(@PathParam("id") long id) {
+
+		return (Client) cb.findById(id);
+	}
 //
 //	@GET
 //	@Path("/")

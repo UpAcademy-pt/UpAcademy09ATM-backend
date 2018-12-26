@@ -18,7 +18,7 @@ import javax.ws.rs.core.UriInfo;
 import io.altar.jseproject.Business.ManagerBusiness;
 import io.altar.jseproject.model.Client;
 
-@Path("/atm")
+@Path("/manager")
 public class ManagerServices implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,11 +33,11 @@ public class ManagerServices implements Serializable {
 	@Path("/health")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String health() {
-		return "ok";
+		return "manager is ok";
 	}
 
 	@POST
-	@Path("/newClient")
+	@Path("/newclient")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Client newClient(Client client) {
@@ -53,7 +53,7 @@ public class ManagerServices implements Serializable {
 	}
 
 	@GET
-	@Path("/")
+	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
 
 	public List<Client> listMovimentos() {
@@ -62,7 +62,7 @@ public class ManagerServices implements Serializable {
 	}
 
 	@DELETE
-	@Path("/{id}")
+	@Path("/delete{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String deleteClient(@PathParam("id") long id) {
 

@@ -34,7 +34,7 @@ public class Client extends BaseEntity {
 		this.email = email;
 		this.password = password;
 		this.tel = tel;
-		this.accountlist = accountlist;
+//		this.accountlist = accountlist;
 	}
 
 	public String getName() {
@@ -69,13 +69,13 @@ public class Client extends BaseEntity {
 		this.tel = tel;
 	}
 
-	public List<Account> getAccountlist() {
-		return accountlist;
-	}
-
-	public void setAccountlist(List<Account> accountlist) {
-		this.accountlist = accountlist;
-	}
+//	public List<Account> getAccountlist() {
+//		return accountlist;
+//	}
+//
+//	public void setAccountlist(List<Account> accountlist) {
+//		this.accountlist = accountlist;
+//	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
