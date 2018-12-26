@@ -63,3 +63,5 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
+ATM/src/main/java/io/altar/jseproject/Services/ClientServices.java
+ATM/src/main/java/io/altar/jseproject/Services/ManagerServices.java

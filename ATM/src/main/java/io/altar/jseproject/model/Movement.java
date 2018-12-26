@@ -1,34 +1,41 @@
 package io.altar.jseproject.model;
 
-import java.sql.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQuery(name = "findAllMovements", query = "SELECT c FROM Movements c")
-public class Movements extends BaseEntity {
+@NamedQuery(name = "findAllMovement", query = "SELECT c FROM Movement c")
+public class Movement extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne (cascade= {CascadeType.ALL})
+	@ManyToOne(cascade = { CascadeType.ALL })
 	private Account account;
-	private Date date;
+	private Long date;
 	private String description;
 	private Double debit;
 	private Double credit;
 	private Double balance;
-	
-	public Movements() {
+
+	public Movement(Account account, Long date, String description, Double debit, Double credit, Double balance) {
+		super();
+		this.account = account;
+		this.date = date;
+		this.description = description;
+		this.debit = debit;
+		this.credit = credit;
+		this.balance = balance;
 	}
 
+	public Movement() {
+	}
 
-	public Date getDate() {
+	public Long getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Long date) {
 		this.date = date;
 	}
 
