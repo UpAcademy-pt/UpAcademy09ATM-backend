@@ -1,67 +1,53 @@
 package io.altar.jseproject.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(name = "findAllClients", query = "SELECT c FROM Client c")
+@NamedQueries({ @NamedQuery(name = "findAllClients", query = "SELECT c FROM Client c"),
+		@NamedQuery(name = "findClientByEmail", query = "SELECT c FROM Client c WHERE c.email LIKE :emailLogin") })
+
 public class Client extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade= {CascadeType.ALL})
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private List<Account> accountlist;
 	private String name;
 	private String email;
 	private String password;
-	private String token;// numerica, a comunicação do cliente com o ATM vão ser botões de 1-9
 	private long tel;
+	private Integer token;
+	private Date time;
 
-
-	public Client(List<Account> accountlist, String name, String email, String password, String token, long tel) {
-
+	public Client(List<Account> accountlist, String name, String email, String password, long tel, Integer token,
+			Date time) {
+		super();
 		this.accountlist = accountlist;
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.token = token;
 		this.tel = tel;
-	}
-@Override
-public int hashCode() {
-	// TODO Auto-generated method stub
-	return super.hashCode();
-}
-
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
 		this.token = token;
+		this.time = time;
 	}
 
 	public Client() {
 	}
+	
+	public List<Account> getAccountlist() {
+		return accountlist;
+	}
 
-//	@Override
-//	public String toString() {
-//		return "Product [iva=" + iva + ", pvp=" + pvp + ", discount=" + discountValue + "]";
-//	}
-
-	public Client(String name, String email, String password, long tel, List<Account> accountlist) {
-		super();
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.tel = tel;
-//		this.accountlist = accountlist;
+	public void setAccountlist(List<Account> accountlist) {
+		this.accountlist = accountlist;
 	}
 
 	public String getName() {
@@ -96,16 +82,25 @@ public int hashCode() {
 		this.tel = tel;
 	}
 
-//	public List<Account> getAccountlist() {
-//		return accountlist;
-//	}
-//
-//	public void setAccountlist(List<Account> accountlist) {
-//		this.accountlist = accountlist;
-//	}
+	public Integer getToken() {
+		return token;
+	}
+
+	public void setToken(Integer token) {
+		this.token = token;
+	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
+	
 }
