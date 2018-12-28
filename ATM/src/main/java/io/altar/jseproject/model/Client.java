@@ -2,6 +2,7 @@ package io.altar.jseproject.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
@@ -13,20 +14,37 @@ public class Client extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade= {CascadeType.ALL})
 	private List<Account> accountlist;
 	private String name;
 	private String email;
-	private String password;// numerica, a comunicação do cliente com o ATM vão ser botões de 1-9
+	private String password;
+	private String token;// numerica, a comunicação do cliente com o ATM vão ser botões de 1-9
 	private long tel;
 
-	
-	public Client(List<Account> accountlist, String name, String email, String password, long tel) {
+
+	public Client(List<Account> accountlist, String name, String email, String password, String token, long tel) {
+
 		this.accountlist = accountlist;
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.token = token;
 		this.tel = tel;
+	}
+@Override
+public int hashCode() {
+	// TODO Auto-generated method stub
+	return super.hashCode();
+}
+
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public Client() {

@@ -1,7 +1,7 @@
 package io.altar.jseproject.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
@@ -10,7 +10,7 @@ import javax.persistence.NamedQuery;
 public class Movement extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Account account;
 	private Long date;
 	private String description;
@@ -30,6 +30,12 @@ public class Movement extends BaseEntity {
 
 	public Movement() {
 	}
+
+	
+	public Account getAccount() {
+		return account;
+	}
+
 
 	public Long getDate() {
 		return date;
@@ -70,5 +76,7 @@ public class Movement extends BaseEntity {
 	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
-
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }
