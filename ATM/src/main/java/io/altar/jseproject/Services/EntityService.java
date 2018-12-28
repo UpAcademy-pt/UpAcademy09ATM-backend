@@ -1,6 +1,5 @@
 package io.altar.jseproject.Services;
 
-import java.io.Serializable;
 //import java.util.List;
 import java.util.List;
 
