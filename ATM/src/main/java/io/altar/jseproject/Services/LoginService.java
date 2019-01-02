@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -33,24 +32,22 @@ public class LoginService {
 //				https://stackoverflow.com/questions/4620172/expires-string-in-cookie-header
 
 			Date time0 = new Date();
-			Long time1 = time0.getTime();
+			Long time1 = (time0.getTime() + 1800);
+			NewCookie cookie1 = new NewCookie("expires", time1.toString());
 
 			Long cliId = cli.getId();
-			Long number = time1 + cliId;
-			Integer token = number.hashCode();
-
-			cli.setToken(token);
-			DBCLIENT.changeEntity(cli);
-
-			NewCookie cookie1 = new NewCookie("token", token.toString());
-
-			time0.setTime(time0.getTime() + 1800);
-
-			NewCookie cookie2 = new NewCookie("expires",time0);
+			Integer token = cliId.hashCode();
+			NewCookie cookie2 = new NewCookie("token", token.toString());
 
 			Response.ResponseBuilder rb = Response.ok(true);
 			Response response = rb.cookie(cookie1, cookie2).build();
+
+			Long token2 = time1 + token;
+			cli.setToken(token2.hashCode());
+			DBCLIENT.changeEntity(cli);
+
 			return response;
+
 		} else {
 
 			return Response.status(Response.Status.NOT_FOUND).entity("Dados invalidos").build();
@@ -58,29 +55,33 @@ public class LoginService {
 		}
 	}
 
-	public Response verify(@CookieParam("token") Cookie cookie) {
-		if (cookie == null) {
-			return Response.serverError().entity("ERROR").build();
+	public boolean verify(Cookie tokenCheck,Cookie expiresCheck) {
+
+		if (tokenCheck == null || expiresCheck == null) {
+
+			return false;
+
 		} else {
 
-			return Response.ok(cookie.getValue()).build();
+			String token = tokenCheck.getValue();
+			Integer tokenInt = Integer.valueOf(token);
+
+			String expires = expiresCheck.getValue();
+			Long expiresLong = Long.valueOf(expires);
+
+			Long token2 = tokenInt + expiresLong;
+			Integer token3 = token2.hashCode();
+
+			
+			if (DBCLIENT.findClientByToken(token3.toString()) == null) {
+	
+				return false;
+
+			} else {
+
+				return true;
+				
+			}
 		}
 	}
-
 }
-//public Response changeEntity(@CookieParam("name") Cookie cookie, T entity) {
-//    if (cookie == null) {
-//        return Response.serverError().entity("ERROR").build();
-//    } else {
-//        return Response.ok(business.changeEntity(entity)).build();
-//    }
-//}
-//@GET
-//@Path("/foo")
-//@Produces(MediaType.TEXT_PLAIN)
-//public Response foo(@CookieParam("name") Cookie cookie) {
-//    if (cookie == null) {
-//        return Response.serverError().entity("ERROR").build();
-//    } else {
-//        return Response.ok(cookie.getValue()).build();
-//    }

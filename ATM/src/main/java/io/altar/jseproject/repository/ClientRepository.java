@@ -1,6 +1,5 @@
 package io.altar.jseproject.repository;
 
-import java.sql.Time;
 import java.util.Date;
 
 import io.altar.jseproject.model.Client;
@@ -22,7 +21,11 @@ public class ClientRepository extends EntityRepository<Client> {
 	public Client findClientByEmail(String emailLogin) {
 
 	return em.createNamedQuery("findClientByEmail", getEntityClass()).setParameter("emailLogin", emailLogin).getSingleResult();
-
-		
 	}
+	
+	public Client findClientByToken(String tokenLogin) {
+
+	return em.createNamedQuery("findClientByToken", getEntityClass()).setParameter("tokenLogin", tokenLogin).getSingleResult();		
+	}
+	
 }

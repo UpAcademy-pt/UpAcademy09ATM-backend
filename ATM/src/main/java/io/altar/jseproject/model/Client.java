@@ -12,7 +12,9 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "findAllClients", query = "SELECT c FROM Client c"),
-		@NamedQuery(name = "findClientByEmail", query = "SELECT c FROM Client c WHERE c.email LIKE :emailLogin") })
+		@NamedQuery(name = "findClientByEmail", query = "SELECT c FROM Client c WHERE c.email LIKE :emailLogin"),
+		@NamedQuery(name = "findClientByToken", query = "SELECT c FROM Client c WHERE c.token LIKE :tokencheck")
+		})
 
 public class Client extends BaseEntity {
 
