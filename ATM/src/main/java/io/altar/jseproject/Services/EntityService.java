@@ -1,6 +1,5 @@
 package io.altar.jseproject.Services;
-
-//import java.util.List;
+//TODO - quando se cria um novo cliente deve-se veificar se os dados de login já existem na base de dados, só se avança com a história dos mails quando já se tem essa validação 
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,8 +43,8 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 	@Path("/newentity")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response newEntity(T entity, @CookieParam("token") Cookie tokenCheck, @CookieParam("expires") Cookie expiresCheck) {
-		if (login.verify(tokenCheck, expiresCheck) == true) {
+	public Response newEntity(T entity, @CookieParam("token") Cookie token,@CookieParam("expire") Cookie expire) {
+		if (login.verify(token,expire) == true) {
 			return Response.ok(business.newEntity(entity)).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();

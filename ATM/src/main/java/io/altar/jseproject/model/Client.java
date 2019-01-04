@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 @Entity
 @NamedQueries({ @NamedQuery(name = "findAllClients", query = "SELECT c FROM Client c"),
 		@NamedQuery(name = "findClientByEmail", query = "SELECT c FROM Client c WHERE c.email LIKE :emailLogin"),
-		@NamedQuery(name = "findClientByToken", query = "SELECT c FROM Client c WHERE c.token LIKE :tokencheck")
+		@NamedQuery(name = "findClientByToken", query = "SELECT c FROM Client c WHERE c.token LIKE :tokenCheck")
 		})
 
 public class Client extends BaseEntity {
@@ -27,7 +27,6 @@ public class Client extends BaseEntity {
 	private String password;
 	private long tel;
 	private Integer token;
-	private Date time;
 
 	public Client(List<Account> accountlist, String name, String email, String password, long tel, Integer token,
 			Date time) {
@@ -38,7 +37,6 @@ public class Client extends BaseEntity {
 		this.password = password;
 		this.tel = tel;
 		this.token = token;
-		this.time = time;
 	}
 
 	public Client() {
@@ -90,14 +88,6 @@ public class Client extends BaseEntity {
 
 	public void setToken(Integer token) {
 		this.token = token;
-	}
-
-	public Date getTime() {
-		return time;
-	}
-
-	public void setTime(Date time) {
-		this.time = time;
 	}
 
 	public static long getSerialversionuid() {
