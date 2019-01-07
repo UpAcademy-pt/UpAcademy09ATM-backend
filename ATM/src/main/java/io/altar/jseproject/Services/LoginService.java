@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,9 +19,6 @@ import javax.ws.rs.core.UriInfo;
 import io.altar.jseproject.model.Client;
 import io.altar.jseproject.repository.ClientRepository;
 
-//TODO - criar logout para clientes e gestor
-//TODO - encriptar password
-//TODO - Filipe quer que login retorne na resposta o nome do cliente
 
 @Path("/login")
 public class LoginService {
@@ -39,11 +37,12 @@ public class LoginService {
 	public Response Login(Client login) {
 
 		String emailLogin = login.getEmail();
-		String passwordLogin = login.getPassword();
+		String passwordLogin0 = login.getPassword();
+		Integer passwordLogin1=passwordLogin0.hashCode();
 
 		Client cli = DBCLIENT.findClientByEmail(emailLogin);
 
-		if (cli.getPassword().equals(passwordLogin)) {
+		if (cli.getPassword().equals(passwordLogin1.toString())) {
 
 			if (cli.getEspechial() == false) {
 
@@ -100,7 +99,9 @@ public class LoginService {
 		NewCookie expireCookie = new NewCookie("expire", expireValueString, "/", "", NewCookie.DEFAULT_VERSION, null,
 				time1, time0, false, false);
 
-		Response.ResponseBuilder rb = Response.ok(true);
+		
+		
+		Response.ResponseBuilder rb = Response.ok(login);
 		Response response = rb.cookie(tokenCookie, expireCookie).build();
 
 		Long token2 = time0.getTime() + time1 + cliId;
@@ -141,6 +142,22 @@ public class LoginService {
 		return response;
 	}
 
+	public Client getClientByCookie(Cookie token, Cookie expire) {
+		Integer tokenValue = Integer.valueOf(token.getValue());
+		Long expireValue = Long.valueOf(expire.getValue());
+		Long token2 = tokenValue + expireValue;
+		Integer token3 = token2.hashCode();
+		if (DBCLIENT.findClientByToken(token3) == null) {
+			Client cli=new Client();
+			cli.setName("Malaquias");
+			return cli;
+		}
+		else {
+			Client cli=	DBCLIENT.findClientByToken(token3);
+			return cli;
+		}
+	}
+
 	public boolean verifyNormal(Cookie token, Cookie expire) {
 
 		if (token == null || expire == null) {
@@ -148,13 +165,10 @@ public class LoginService {
 			return false;
 
 		} else {
+			Client cli=getClientByCookie( token,  expire);
+			String cliName=cli.getName();
 
-			Integer tokenValue = Integer.valueOf(token.getValue());
-			Long expireValue = Long.valueOf(expire.getValue());
-			Long token2 = tokenValue + expireValue;
-			Integer token3 = token2.hashCode();
-
-			if (DBCLIENT.findClientByToken(token3) == null) {
+			if (cliName == "Malaquias") {
 
 				return false;
 
@@ -174,12 +188,10 @@ public class LoginService {
 
 		} else {
 
-			Integer tokenValue = Integer.valueOf(token.getValue());
-			Long expireValue = Long.valueOf(expire.getValue());
-			Long token2 = tokenValue + expireValue;
-			Integer token3 = token2.hashCode();
+			Client cli=getClientByCookie( token,  expire);
+			String cliName=cli.getName();
 
-			if (DBCLIENT.findClientByToken(token3) == null) {
+			if (cliName == "Malaquias") {
 
 				return false;
 
@@ -196,4 +208,32 @@ public class LoginService {
 			}
 		}
 	}
+
+	@POST
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Transactional
+	public Response Logout(@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+		Client cli = getClientByCookie(token,expire);
+		cli.setToken(null);
+		
+		
+		NewCookie tokenCookie = new NewCookie("token", null, "/", "", NewCookie.DEFAULT_VERSION, null, -1,
+				null, false, false);
+
+		NewCookie expireCookie = new NewCookie("expire", null, "/", "", NewCookie.DEFAULT_VERSION, null, -1,
+				null, false, false);
+		
+		NewCookie espechialCookie = new NewCookie("espechial", null, "/", "", NewCookie.DEFAULT_VERSION, null, -1,
+				null, false, false);
+		
+		
+		Response.ResponseBuilder rb = Response.ok("logout");
+		Response response = rb.cookie(tokenCookie, expireCookie,espechialCookie).build();
+
+		return response;			
+
+	}
+
 }
