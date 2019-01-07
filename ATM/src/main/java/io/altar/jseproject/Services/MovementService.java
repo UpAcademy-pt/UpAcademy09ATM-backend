@@ -7,7 +7,7 @@ import io.altar.jseproject.model.Movement;
 import io.altar.jseproject.repository.MovementRepository;
 
 @Path("movement")
-public class MovementServices extends EntityService<MovementBusiness, MovementRepository, Movement> {
+public class MovementService extends EntityService<MovementBusiness, MovementRepository, Movement> {
 
 
 }

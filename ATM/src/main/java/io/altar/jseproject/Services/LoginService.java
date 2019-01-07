@@ -19,6 +19,7 @@ import io.altar.jseproject.model.Client;
 import io.altar.jseproject.repository.ClientRepository;
 
 //TODO - criar logout para clientes e gestor
+//TODO - encriptar password
 //TODO - Filipe quer que login retorne na resposta o nome do cliente
 
 @Path("/login")
