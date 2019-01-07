@@ -1,3 +1,5 @@
+//não existe setEspechial por segurança, só com acesso direto à base de dados se pode alterar este parâmetro
+
 package io.altar.jseproject.model;
 
 import java.util.Date;
@@ -27,16 +29,17 @@ public class Client extends BaseEntity {
 	private String password;
 	private long tel;
 	private Integer token;
+	private boolean espechial;
 
 	public Client(List<Account> accountlist, String name, String email, String password, long tel, Integer token,
-			Date time) {
-		super();
+			Date time, Boolean espechial) {
 		this.accountlist = accountlist;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.tel = tel;
 		this.token = token;
+		this.espechial=espechial;
 	}
 
 	public Client() {
@@ -89,6 +92,12 @@ public class Client extends BaseEntity {
 	public void setToken(Integer token) {
 		this.token = token;
 	}
+
+	public boolean getEspechial() {
+		return espechial;
+	}
+
+
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

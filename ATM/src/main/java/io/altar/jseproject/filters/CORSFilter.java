@@ -1,4 +1,4 @@
-package filters;
+package io.altar.jseproject.filters;
 
 import java.io.IOException;
 

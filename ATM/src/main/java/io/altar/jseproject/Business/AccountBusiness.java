@@ -48,8 +48,8 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 	}
 
 	@Transactional
-	public String moneyTransfer(Long account1id, Double volume) {
-		// levantmento de dnheiro
+	public String moneyPickup(Long account1id, Double volume) {
+		// levantmento de dinheiro
 
 		Long time = new Date().getTime();
 

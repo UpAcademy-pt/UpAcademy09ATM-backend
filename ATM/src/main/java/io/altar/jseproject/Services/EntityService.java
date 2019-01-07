@@ -1,6 +1,4 @@
 package io.altar.jseproject.Services;
-//TODO - quando se cria um novo cliente deve-se veificar se os dados de login já existem na base de dados, só se avança com a história dos mails quando já se tem essa validação 
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -43,8 +41,8 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 	@Path("/newentity")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response newEntity(T entity, @CookieParam("token") Cookie token,@CookieParam("expire") Cookie expire) {
-		if (login.verify(token,expire) == true) {
+	public Response newEntity(T entity, @CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+		if (login.verifyEspechial(token, expire, espechial) == true) {
 			return Response.ok(business.newEntity(entity)).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();
@@ -55,34 +53,47 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 	@Path("/changeentity")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public T changeEntity(T entity) {
-
-		return business.changeEntity(entity);
-
+	public Response changeEntity(T entity, @CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+		if (login.verifyEspechial(token, expire, espechial) == true) {
+			return Response.ok(business.changeEntity(entity)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public T getEntityById(@PathParam("id") long id) {
-
-		return business.getEntityById(id);
+	public Response getEntityById(@PathParam("id") long id, @CookieParam("token") Cookie token,
+			@CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+		if (login.verifyEspechial(token, expire, espechial) == true) {
+			return Response.ok(business.getEntityById(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
 	}
 
 	@GET
 	@Path("/listentity")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<T> listEntity() {
-
-		return business.getAllEntity();
+	public Response listEntity(@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+		if (login.verifyEspechial(token, expire, espechial) == true) {
+			return Response.ok(business.getAllEntity()).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
 	}
 
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteEntity(@PathParam("id") long id) {
-
-		return business.deleteEntity(id);
+	public Response deleteEntity(@PathParam("id") long id, @CookieParam("token") Cookie token,
+			@CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+		if (login.verifyEspechial(token, expire, espechial) == true) {
+			return Response.ok(business.deleteEntity(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
 	}
 
 }

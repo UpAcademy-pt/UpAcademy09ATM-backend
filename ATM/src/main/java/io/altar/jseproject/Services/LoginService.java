@@ -18,6 +18,9 @@ import javax.ws.rs.core.UriInfo;
 import io.altar.jseproject.model.Client;
 import io.altar.jseproject.repository.ClientRepository;
 
+//TODO - criar logout para clientes e gestor
+//TODO - Filipe quer que login retorne na resposta o nome do cliente
+
 @Path("/login")
 public class LoginService {
 
@@ -39,29 +42,15 @@ public class LoginService {
 
 		Client cli = DBCLIENT.findClientByEmail(emailLogin);
 
-		System.out.println(passwordLogin + 1);
-		System.out.println(cli.getPassword() + 2);
-
 		if (cli.getPassword().equals(passwordLogin)) {
-			Date time0 = new Date();
-			Integer time1 = 240;
-			Long cliId = cli.getId();
-			Integer tokenValue = cliId.hashCode();
-			
-			Long expireValue=time0.getTime()+time1;
-			String expireValueString= Long.toString(expireValue);
-			
-			NewCookie tokenCookie = new NewCookie("token", tokenValue.toString(), "/", "", NewCookie.DEFAULT_VERSION, null, time1, time0, false, false);
-			NewCookie expireCookie = new NewCookie("expire",expireValueString, "/", "", NewCookie.DEFAULT_VERSION, null, time1, time0, false, false);
 
-			Response.ResponseBuilder rb = Response.ok(true);
-			Response response = rb.cookie(tokenCookie,expireCookie).build();
+			if (cli.getEspechial() == false) {
 
-			Long token2 = expireValue + tokenValue;
-			cli.setToken(token2.hashCode());
-			DBCLIENT.changeEntity(cli);
+				return loginNormal(cli);
 
-			return response;
+			} else {
+				return loginEspechial(cli);
+			}
 
 		} else {
 			System.out.println(cli.getName() + 2);
@@ -70,36 +59,140 @@ public class LoginService {
 		}
 	}
 
-	public boolean verify(Cookie cookie,Cookie expire) {
+	public String generateTokenValue(Long cliId, Date time0) {
 
-		if (cookie == null||expire==null) {
+		Long tokenValue1 = cliId + time0.getTime();
+
+		Integer tokenValue2 = tokenValue1.hashCode();
+		String tokenValueString = tokenValue2.toString();
+
+		return tokenValueString;
+	}
+
+	public String generateExpireValue(Date time0, Integer time1) {
+
+		Long expireValue = time0.getTime() + time1;
+		String expireValueString = Long.toString(expireValue);
+		return expireValueString;
+
+	}
+
+	public String generateEspechialValue(String expireValueString) {
+		Integer expireValue0 = "o que faz falta é animar a malta".hashCode() + expireValueString.hashCode();
+		Integer expireValue1 = expireValue0.hashCode();
+		return expireValue1.toString();
+	}
+
+	public Response loginNormal(Client login) {
+		Date time0 = new Date();
+
+		Integer time1 = 240;
+		Long cliId = login.getId();
+
+		String tokenValue = generateTokenValue(cliId, time0);
+
+		NewCookie tokenCookie = new NewCookie("token", tokenValue, "/", "", NewCookie.DEFAULT_VERSION, null, time1,
+				time0, false, false);
+
+		String expireValueString = generateExpireValue(time0, time1);
+
+		NewCookie expireCookie = new NewCookie("expire", expireValueString, "/", "", NewCookie.DEFAULT_VERSION, null,
+				time1, time0, false, false);
+
+		Response.ResponseBuilder rb = Response.ok(true);
+		Response response = rb.cookie(tokenCookie, expireCookie).build();
+
+		Long token2 = time0.getTime() + time1 + cliId;
+		login.setToken(token2.hashCode());
+		DBCLIENT.changeEntity(login);
+
+		return response;
+	}
+
+	public Response loginEspechial(Client login) {
+		Date time0 = new Date();
+
+		Integer time1 = 240;
+		Long cliId = login.getId();
+
+		String tokenValue = generateTokenValue(cliId, time0);
+
+		NewCookie tokenCookie = new NewCookie("token", tokenValue, "/", "", NewCookie.DEFAULT_VERSION, null, time1,
+				time0, false, false);
+
+		String expireValueString = generateExpireValue(time0, time1);
+
+		NewCookie expireCookie = new NewCookie("expire", expireValueString, "/", "", NewCookie.DEFAULT_VERSION, null,
+				time1, time0, false, false);
+
+		String espechialValueString = generateEspechialValue(expireValueString);
+
+		NewCookie espechialCookie = new NewCookie("espechial", espechialValueString, "/", "", NewCookie.DEFAULT_VERSION,
+				null, time1, time0, false, false);
+
+		Response.ResponseBuilder rb = Response.ok(true);
+		Response response = rb.cookie(tokenCookie, expireCookie, espechialCookie).build();
+
+		Long token2 = time0.getTime() + time1 + cliId;
+		login.setToken(token2.hashCode());
+		DBCLIENT.changeEntity(login);
+
+		return response;
+	}
+
+	public boolean verifyNormal(Cookie token, Cookie expire) {
+
+		if (token == null || expire == null) {
 
 			return false;
 
 		} else {
 
-//		System.out.println("aqui tá ele"+cookie);
+			Integer tokenValue = Integer.valueOf(token.getValue());
+			Long expireValue = Long.valueOf(expire.getValue());
+			Long token2 = tokenValue + expireValue;
+			Integer token3 = token2.hashCode();
 
-		Integer tokenValue = Integer.valueOf(cookie.getValue());
-Long expireValue=Long.valueOf(expire.getValue());
-Long token2=tokenValue+expireValue;
-Integer token3=token2.hashCode();
-
-//System.out.println(tytoken3);
-//Long expires =cookie.getExpiry().getTime();
-//			Long token3 = token2 + expires;
-//			Integer token4 = token3.hashCode();
-
-			
 			if (DBCLIENT.findClientByToken(token3) == null) {
-	
+
 				return false;
 
 			} else {
 
-			return true;
+				return true;
 
+			}
 		}
 	}
+
+	public boolean verifyEspechial(Cookie token, Cookie expire, Cookie espechial) {
+
+		if (token == null || expire == null || espechial == null) {
+
+			return false;
+
+		} else {
+
+			Integer tokenValue = Integer.valueOf(token.getValue());
+			Long expireValue = Long.valueOf(expire.getValue());
+			Long token2 = tokenValue + expireValue;
+			Integer token3 = token2.hashCode();
+
+			if (DBCLIENT.findClientByToken(token3) == null) {
+
+				return false;
+
+			} else {
+				String espechialValueString = generateEspechialValue(expire.getValue());
+
+				if (espechialValueString.equals(espechial.getValue())) {
+					return true;
+
+				} else {
+					return false;
+				}
+
+			}
+		}
 	}
 }
