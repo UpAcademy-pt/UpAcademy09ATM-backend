@@ -210,7 +210,7 @@ public class LoginService {
 	}
 
 	@POST
-	@Path("/")
+	@Path("/logout")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional
