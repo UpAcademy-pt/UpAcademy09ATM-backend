@@ -93,7 +93,9 @@ public class Client extends BaseEntity {
 		return espechial;
 	}
 
-
+	public void setEspechial(Boolean espechial) {
+		this.espechial=espechial;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

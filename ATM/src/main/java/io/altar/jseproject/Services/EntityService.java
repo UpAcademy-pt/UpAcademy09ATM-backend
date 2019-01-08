@@ -42,9 +42,16 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response newEntity(T entity, @CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+
+		System.out.println(">>>>>>>>>>verificar se é espechial");
 		if (login.verifyEspechial(token, expire, espechial) == true) {
+			System.out.println(">>>>>>>>>>>>> é espechial");
+
 			return Response.ok(business.newEntity(entity)).build();
 		} else {
+			System.out.println(">>>>>>>>>>>>> não é espechial");
+
+			
 			return Response.serverError().entity("goToLogin").build();
 		}
 	}

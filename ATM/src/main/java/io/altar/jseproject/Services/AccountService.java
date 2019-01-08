@@ -3,7 +3,6 @@ package io.altar.jseproject.Services;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,6 +12,7 @@ import javax.ws.rs.core.Response;
 
 import io.altar.jseproject.Business.AccountBusiness;
 import io.altar.jseproject.model.Account;
+import io.altar.jseproject.model.TransferObject;
 import io.altar.jseproject.repository.AccountRepository;
 
 @Path("account")
@@ -26,10 +26,10 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	@Path("/transfer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response transfer(@FormParam("account1Id") Long account1Id, @FormParam("account2Id") Long account2Id,@FormParam("volume") Double volume,
+	public Response transfer(TransferObject transfer,
 			@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire) {
 		if (login.verifyNormal(token,expire) == true) {
-			return Response.ok(business.moneyTransfer(account1Id,volume,account2Id)).build();
+			return Response.ok(business.moneyTransfer(transfer)).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();
 		}
@@ -38,10 +38,12 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	@Path("/deposit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deposit(@FormParam("accountId") Long accountId, @FormParam("volume") Double volume,
+	public Response deposit(TransferObject deposit,
 			@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire) {
+		System.out.println(">>>>>>>>>>>>>esta é a id recebida pelo postman :"+deposit.getAccount1Id());
+
 		if (login.verifyNormal(token,expire) == true) {
-			return Response.ok(business.moneyDeposit(accountId,volume)).build();
+			return Response.ok(business.moneyDeposit(deposit)).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();
 		}
@@ -50,10 +52,10 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	@Path("/pickup")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response pickup(@FormParam("accountId") Long accountId, @FormParam("volume") Double volume,
+	public Response pickup(TransferObject pickup,
 			@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire) {
 		if (login.verifyNormal(token,expire) == true) {
-			return Response.ok(business.moneyPickup(accountId,volume)).build();
+			return Response.ok(business.moneyPickup(pickup)).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();
 		}
