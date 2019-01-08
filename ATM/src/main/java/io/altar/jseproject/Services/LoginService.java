@@ -134,7 +134,7 @@ System.out.println(">>>>>>>>login é especial?");
 	public Response loginEspechial(Client login) {
 		Date time0 = new Date();
 
-		Integer time1 = 1800;
+		Integer time1 = 90000;
 		Long cliId = login.getId();
 
 		Integer tokenValue = generateTokenValue(cliId, time0);

@@ -3,10 +3,14 @@
 package io.altar.jseproject.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "findAllClients", query = "SELECT c FROM Client c"),
@@ -18,8 +22,8 @@ public class Client extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-//	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-//	private List<Account> accountlist;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval=true)
+	private List<Account> accountlist;
 	private String name;
 	private String email;
 	private String password;
@@ -27,9 +31,9 @@ public class Client extends BaseEntity {
 	private Integer token;
 	private boolean espechial;
 
-	public Client(String name, String email, String password, long tel, Integer token,
+	public Client(List<Account> accountlist,String name, String email, String password, long tel, Integer token,
 			Date time, Boolean espechial) {
-//		this.accountlist = accountlist;
+		this.accountlist = accountlist;
 		this.name = name;
 		this.email = email;
 		this.password = password;
@@ -41,13 +45,13 @@ public class Client extends BaseEntity {
 	public Client() {
 	}
 	
-//	public List<Account> getAccountlist() {
-//		return accountlist;
-//	}
-//
-//	public void setAccountlist(List<Account> accountlist) {
-//		this.accountlist = accountlist;
-//	}
+	public List<Account> getAccountlist() {
+		return accountlist;
+	}
+
+	public void setAccountlist(List<Account> accountlist) {
+		this.accountlist = accountlist;
+	}
 
 	public String getName() {
 		return name;
