@@ -22,7 +22,7 @@ public class Client extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval=true)
 	private List<Account> accountlist;
 	private String name;
 	private String email;
