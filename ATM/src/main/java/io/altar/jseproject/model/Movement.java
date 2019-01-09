@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 public class Movement extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch=FetchType.LAZY,cascade =CascadeType.PERSIST)
+	@ManyToOne(fetch=FetchType.EAGER,cascade =CascadeType.PERSIST)
 	 @JoinColumn(name="account_id")
 	private Account account;
 	private Long date;

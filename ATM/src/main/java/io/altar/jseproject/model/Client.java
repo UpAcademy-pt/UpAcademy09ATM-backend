@@ -22,24 +22,26 @@ public class Client extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval=true)
-	private List<Account> accountlist;
+
 	private String name;
 	private String email;
 	private String password;
 	private long tel;
 	private Integer token;
 	private boolean espechial;
-
-	public Client(List<Account> accountlist,String name, String email, String password, long tel, Integer token,
-			Date time, Boolean espechial) {
-		this.accountlist = accountlist;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval=true)
+	private List<Account> accountlist;
+	
+	public Client(String name, String email, String password, long tel, Integer token,
+			Date time, Boolean espechial,List<Account> accountlist) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.tel = tel;
 		this.token = token;
 		this.espechial=espechial;
+		this.accountlist = accountlist;
+
 	}
 
 	public Client() {
