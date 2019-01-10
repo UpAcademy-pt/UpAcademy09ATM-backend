@@ -16,6 +16,7 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import io.altar.jseproject.Business.ClientBusiness;
 import io.altar.jseproject.model.Client;
 import io.altar.jseproject.repository.ClientRepository;
 
@@ -27,6 +28,9 @@ public class LoginService {
 
 	@Inject
 	protected ClientRepository DBCLIENT;
+
+	@Inject
+	protected ClientBusiness business;
 
 	@POST
 	@Path("manager")
@@ -121,7 +125,7 @@ System.out.println(">>>>>>>>login é especial?");
 		NewCookie expireCookie = new NewCookie("expire", expireValueString, "/", "", NewCookie.DEFAULT_VERSION, null,
 				time1, time0, false, false);
 
-		Response.ResponseBuilder rb = Response.ok(login);
+		Response.ResponseBuilder rb = Response.ok(business.getClientDTO(login));
 		Response response = rb.cookie(tokenCookie, expireCookie).build();
 
 
@@ -154,7 +158,7 @@ System.out.println(">>>>>>>>login é especial?");
 				null, time1, time0, false, false);
 		System.out.println(">>>>>>>>valor do espechial :"+espechialCookie);
 
-		Response.ResponseBuilder rb = Response.ok(true);
+		Response.ResponseBuilder rb = Response.ok("O login 'Espechial' foi realizado com sucesso");
 		Response response = rb.cookie(tokenCookie, expireCookie, espechialCookie).build();
 
 		login.setToken(tokenValue);

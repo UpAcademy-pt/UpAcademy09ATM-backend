@@ -39,6 +39,24 @@ public class ClientBusiness extends EntityBusiness<ClientRepository, Client> {
 	public ClientDTO getClientById(Long id) {
 		Client client = repository.getById(id);
 
+		return getClientDTO(client);
+	}
+
+	public List<ClientDTO> getAllClient() {
+		List<Client> clientList = repository.getAll();
+		List<ClientDTO> clientDTOList = new ArrayList<>();
+		Iterator<Client> iterator = clientList.iterator();
+
+		while (iterator.hasNext()) {
+			Client client = iterator.next();
+			
+			ClientDTO clientDTO = getClientDTO( client);
+			
+			clientDTOList.add(clientDTO);
+		}
+		return clientDTOList;
+	}
+	public ClientDTO getClientDTO(Client client) {
 		ClientDTO clientDTO = new ClientDTO();
 
 		clientDTO.setEspechial(client.getEspechial());
@@ -50,27 +68,6 @@ public class ClientBusiness extends EntityBusiness<ClientRepository, Client> {
 		clientDTO.setToken(client.getToken());
 
 		return clientDTO;
-	}
-
-	public List<ClientDTO> getAllClient() {
-		List<Client> clientList = repository.getAll();
-		List<ClientDTO> clientDTOList = new ArrayList<>();
-		Iterator<Client> iterator = clientList.iterator();
-
-		while (iterator.hasNext()) {
-			Client client = iterator.next();
-			ClientDTO clientDTO = new ClientDTO();
-
-			clientDTO.setEspechial(client.getEspechial());
-			clientDTO.setEmail(client.getEmail());
-			clientDTO.setId(client.getId());
-			clientDTO.setName(client.getName());
-			clientDTO.setPassword(client.getPassword());
-			clientDTO.setTel(client.getTel());
-			clientDTO.setToken(client.getToken());
-			clientDTOList.add(clientDTO);
-		}
-		return clientDTOList;
 	}
 
 	public List<AccountDTO> getAllAccountsFromClient(Long id) {

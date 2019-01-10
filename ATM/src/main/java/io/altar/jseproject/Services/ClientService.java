@@ -47,9 +47,8 @@ public class ClientService extends EntityService<ClientBusiness, ClientRepositor
 	@GET
 	@Path("/getallaccountsfromclient/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllAccountsFromClientId(@PathParam("id") long id,@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire,
-			@CookieParam("espechial") Cookie espechial) {
-		if (login.verifyEspechial(token, expire, espechial) == true) {
+	public Response getAllAccountsFromClientId(@PathParam("id") long id,@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire) {
+		if (login.verifyNormal(token, expire) == true) {
 			return Response.ok(business.getAllAccountsFromClient(id)).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();

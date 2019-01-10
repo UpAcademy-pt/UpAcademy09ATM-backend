@@ -80,8 +80,8 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	@Path("getallmovementsfromaccount/{id}")
 	@Produces("application/json")
 	public Response getAllmovementsFromAccount(@PathParam("id") long id, @CookieParam("token") Cookie token,
-			@CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
-		if (login.verifyEspechial(token, expire, espechial) == true) {
+			@CookieParam("expire") Cookie expire) {
+		if (login.verifyNormal(token, expire) == true) {
 			return Response.ok(business.getAllmovementsFromAccount(id)).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();
