@@ -27,5 +27,4 @@ public class ClientRepository extends EntityRepository<Client> {
 
 	return em.createNamedQuery("findClientByToken", getEntityClass()).setParameter("tokenCheck", token3).getSingleResult();		
 	}
-	
 }

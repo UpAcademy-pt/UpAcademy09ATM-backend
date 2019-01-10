@@ -26,13 +26,13 @@ public class Client extends BaseEntity {
 	private String name;
 	private String email;
 	private String password;
-	private long tel;
+	private Long tel;
 	private Integer token;
-	private boolean espechial;
+	private Boolean espechial;
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval=true)
 	private List<Account> accountlist;
 	
-	public Client(String name, String email, String password, long tel, Integer token,
+	public Client(String name, String email, String password, Long tel, Integer token,
 			Date time, Boolean espechial,List<Account> accountlist) {
 		this.name = name;
 		this.email = email;
@@ -79,11 +79,11 @@ public class Client extends BaseEntity {
 		this.password = password;
 	}
 
-	public long getTel() {
+	public Long getTel() {
 		return tel;
 	}
 
-	public void setTel(long tel) {
+	public void setTel(Long tel) {
 		this.tel = tel;
 	}
 
@@ -95,7 +95,7 @@ public class Client extends BaseEntity {
 		this.token = token;
 	}
 
-	public boolean getEspechial() {
+	public Boolean getEspechial() {
 		return espechial;
 	}
 

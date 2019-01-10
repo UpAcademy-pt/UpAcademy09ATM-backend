@@ -1,28 +1,17 @@
 package io.altar.jseproject.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
+public class MovementDTO {
 
-@Entity
-@NamedQuery(name = "findAllmovements", query = "SELECT c FROM Movement c")
-public class Movement extends BaseEntity {
-	private static final long serialVersionUID = 1L;
-
-	@ManyToOne(fetch=FetchType.LAZY,cascade =CascadeType.PERSIST)
-	 @JoinColumn(name="account_id")
-	private Account account;
+	private Long id;
 	private Long date;
 	private String description;
 	private Double debit;
 	private Double credit;
 	private Double balance;
 
-	public Movement(Account account, Long date, String description, Double debit, Double credit, Double balance) {
-		this.account = account;
+	public MovementDTO(Long id, Long date, String description, Double debit, Double credit, Double balance) {
+		super();
+		this.id = id;
 		this.date = date;
 		this.description = description;
 		this.debit = debit;
@@ -30,14 +19,16 @@ public class Movement extends BaseEntity {
 		this.balance = balance;
 	}
 
-	public Movement() {
+	public MovementDTO() {
 	}
 
-	
-	public Account getAccount() {
-		return account;
+	public Long getId() {
+		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Long getDate() {
 		return date;
@@ -78,7 +69,5 @@ public class Movement extends BaseEntity {
 	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+
 }

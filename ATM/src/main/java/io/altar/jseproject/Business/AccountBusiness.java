@@ -1,12 +1,17 @@
 package io.altar.jseproject.Business;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 import io.altar.jseproject.model.Account;
+import io.altar.jseproject.model.AccountDTO;
 import io.altar.jseproject.model.Movement;
+import io.altar.jseproject.model.MovementDTO;
 import io.altar.jseproject.model.TransferObject;
 import io.altar.jseproject.repository.AccountRepository;
 import io.altar.jseproject.repository.MovementRepository;
@@ -14,6 +19,9 @@ import io.altar.jseproject.repository.MovementRepository;
 public class AccountBusiness extends EntityBusiness<AccountRepository, Account> {
 
 	@Inject
+	private MovementBusiness movement;
+	
+	
 	protected AccountRepository ar;
 
 	@Inject
@@ -80,7 +88,7 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 	@Transactional
 	public String moneyDeposit(TransferObject deposit) {
 		// depositar dinheiro
-//TODO - é aqui que se devia ter um saldo contabilistico até haver contagem do dinheiro, vamos assumir que se acredita nas boas intenções do cliente
+//TODO - é aqui que se devia ter um saldo contabilistico até haver contagem do dinheiro, vamos assumir que se acredita nas boas intenções do accounte
 
 		Long account1Id = deposit.getAccount1Id();
 		Double volume = deposit.getVolume();
@@ -99,5 +107,47 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 		account1.setBalance(creditBalance);
 
 		return "foi depositado na sua conta o montante entregue";
+	}
+
+	public AccountDTO getEntityById(Long id) {
+		Account account = repository.getById(id);
+
+		AccountDTO AccountDTO = new AccountDTO();
+
+		AccountDTO.setId(account.getId());
+		AccountDTO.setBalance(account.getBalance());
+
+		return AccountDTO;
+	}
+
+	public List<MovementDTO> getAllmovementsFromAccount(Long id){
+		Account account = repository.getById(id);
+List<Movement> movementList=account.getMovementlist();
+		
+		return movement.generateMovementDTOListFromMovementList(movementList);
+	}
+	
+	public List<AccountDTO> generateAccountDTOListFromAccountList(List<Account> accountList) {
+		List<AccountDTO> accountDTOList = new ArrayList<>();
+		Iterator<Account> iterator = accountList.iterator();
+
+		while (iterator.hasNext()) {
+			Account account = iterator.next();
+			AccountDTO AccountDTO = new AccountDTO();
+
+			AccountDTO.setId(account.getId());
+			AccountDTO.setBalance(account.getBalance());
+
+			accountDTOList.add(AccountDTO);
+		}
+		return accountDTOList;
+	}
+
+	public List<AccountDTO> getAllEntity() {
+		List<Account> accountList = repository.getAll();
+
+		List<AccountDTO> accountDTOList = generateAccountDTOListFromAccountList(accountList);
+
+		return accountDTOList;
 	}
 }

@@ -29,7 +29,6 @@ public class Account extends BaseEntity {
 	private Double balance;
 
 	public Account(Client user, List<Movement> movementlist, Double balance) {
-		super();
 		this.user = user;
 		this.movementlist = movementlist;
 		this.balance = balance;

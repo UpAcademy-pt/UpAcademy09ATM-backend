@@ -39,6 +39,7 @@ public abstract class EntityRepository<T extends BaseEntity> {
 		return em.createNamedQuery(getAllEntityQueryName(), getEntityClass()).getResultList();
 	}
 
+
 	protected abstract Class<T> getEntityClass();
 	
 	protected abstract String getAllEntityQueryName();

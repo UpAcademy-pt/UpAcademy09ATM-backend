@@ -3,8 +3,10 @@ package io.altar.jseproject.Services;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
@@ -29,9 +31,11 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	public Response transfer(TransferObject transfer,
 			@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire) {
 		if (login.verifyNormal(token,expire) == true) {
+			
+			
 			return Response.ok(business.moneyTransfer(transfer)).build();
 		} else {
-			return Response.serverError().entity("goToLogin").build();
+			return Response.serverError().entity("Esta operação requer acesso especial").build();
 		}
 	}
 	@POST
@@ -56,6 +60,39 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 			@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire) {
 		if (login.verifyNormal(token,expire) == true) {
 			return Response.ok(business.moneyPickup(pickup)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
+	@GET
+	@Path("/{id}")
+	@Produces("application/json")
+	public Response getEntityById(@PathParam("id") long id, @CookieParam("token") Cookie token,
+			@CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+		if (login.verifyEspechial(token, expire, espechial) == true) {
+			return Response.ok(business.getEntityById(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
+	
+	@GET
+	@Path("getallmovementsfromaccount/{id}")
+	@Produces("application/json")
+	public Response getAllmovementsFromAccount(@PathParam("id") long id, @CookieParam("token") Cookie token,
+			@CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+		if (login.verifyEspechial(token, expire, espechial) == true) {
+			return Response.ok(business.getAllmovementsFromAccount(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
+	@GET
+	@Path("/listentity")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listEntity(@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
+		if (login.verifyEspechial(token, expire, espechial) == true) {
+			return Response.ok(business.getAllEntity()).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();
 		}

@@ -40,7 +40,7 @@ public class LoginService {
 		manager.setEmail("manager@mail.com");
 		manager.setName("Manager");
 		manager.setPassword("-146771471");
-		manager.setTel(111222333);
+		manager.setTel((long) 111222333);
 		manager.setEspechial(true);
 
 		System.out.println("antes");
@@ -242,13 +242,13 @@ System.out.println(">>>>>>>>Cookie espechical existe");
 		Client cli = getClientByCookie(token, expire);
 		cli.setToken(null);
 
-		NewCookie tokenCookie = new NewCookie("token", null, "/", "", NewCookie.DEFAULT_VERSION, null, -1, null, false,
+		NewCookie tokenCookie = new NewCookie("token", null, "/", "", NewCookie.DEFAULT_VERSION, null, 0, new Date(), false,
 				false);
 
-		NewCookie expireCookie = new NewCookie("expire", null, "/", "", NewCookie.DEFAULT_VERSION, null, -1, null,
+		NewCookie expireCookie = new NewCookie("expire", null, "/", "", NewCookie.DEFAULT_VERSION, null, 0, new Date(),
 				false, false);
 
-		NewCookie espechialCookie = new NewCookie("espechial", null, "/", "", NewCookie.DEFAULT_VERSION, null, -1, null,
+		NewCookie espechialCookie = new NewCookie("espechial", null, "/", "", NewCookie.DEFAULT_VERSION, null, 0, new Date(),
 				false, false);
 
 		Response.ResponseBuilder rb = Response.ok("logout");
