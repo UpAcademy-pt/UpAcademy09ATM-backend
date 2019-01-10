@@ -69,13 +69,18 @@ public class ClientBusiness extends EntityBusiness<ClientRepository, Client> {
 
 		return clientDTO;
 	}
-
+@Transactional
 	public List<AccountDTO> getAllAccountsFromClient(Long id) {
+		System.out.println(">>>>>>>>>>antes de ir buscar o cliente");
 		Client client = repository.getById(id);
+		System.out.println(">>>>>>>>>>depois de ir buscar o cliente");
 		List<Account> accountList = client.getAccountlist();
+		System.out.println(">>>>>>>>>>depois de ir buscar a lista do cliente");
+
+		System.out.println(accountList);
 
 		List<AccountDTO> accountDTOList = account.generateAccountDTOListFromAccountList(accountList);
-
+System.out.println(accountDTOList);
 		return accountDTOList;
 	}
 

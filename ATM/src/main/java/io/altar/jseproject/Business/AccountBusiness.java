@@ -20,8 +20,7 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 
 	@Inject
 	private MovementBusiness movement;
-	
-	
+
 	protected AccountRepository ar;
 
 	@Inject
@@ -120,13 +119,14 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 		return AccountDTO;
 	}
 
-	public List<MovementDTO> getAllmovementsFromAccount(Long id){
+	@Transactional
+	public List<MovementDTO> getAllmovementsFromAccount(Long id) {
 		Account account = repository.getById(id);
-List<Movement> movementList=account.getMovementlist();
-		
+		List<Movement> movementList = account.getMovementlist();
+
 		return movement.generateMovementDTOListFromMovementList(movementList);
 	}
-	
+
 	public List<AccountDTO> generateAccountDTOListFromAccountList(List<Account> accountList) {
 		List<AccountDTO> accountDTOList = new ArrayList<>();
 		Iterator<Account> iterator = accountList.iterator();
@@ -143,6 +143,7 @@ List<Movement> movementList=account.getMovementlist();
 		return accountDTOList;
 	}
 
+	@Transactional
 	public List<AccountDTO> getAllEntity() {
 		List<Account> accountList = repository.getAll();
 
