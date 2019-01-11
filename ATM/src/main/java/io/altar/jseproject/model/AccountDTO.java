@@ -8,7 +8,6 @@ public class AccountDTO {
 
 
 	public AccountDTO(Long id, Double balance) {
-		super();
 		this.id = id;
 		this.balance = balance;
 	}
