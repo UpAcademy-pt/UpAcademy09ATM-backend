@@ -1,7 +1,6 @@
 package io.altar.jseproject.repository;
 
 import java.util.List;
-import java.util.Map;
 
 import io.altar.jseproject.model.Movement;
 
@@ -21,23 +20,19 @@ public class MovementRepository extends EntityRepository<Movement> {
 		return em.createNamedQuery("getCreditsDescriptionFromClientsAccount", String.class).setParameter("id", id)
 				.getResultList();
 	}
-	public Double getCreditsByDescriptionFromClientsAccounts(List <Long> accountsId, String description) {
-		return em.createNamedQuery("getCreditsByDescriptionFromClientsAccounts", Double.class).setParameter("accountsId", accountsId).setParameter("description", description)
-				.getSingleResult();
+
+	public Double getCreditsByDescriptionFromClientsAccounts(Long id, String description) {
+		return em.createNamedQuery("getCreditsByDescriptionFromClientsAccounts", Double.class).setParameter("id", id)
+				.setParameter("description", description).getSingleResult();
 	}
-	
+
 	public List<String> getDebitsDescriptionFromClientsAccount(Long id) {
 		return em.createNamedQuery("getDebitsDescriptionFromClientsAccount", String.class).setParameter("id", id)
 				.getResultList();
 	}
-	
-	public void getDebitsByDescriptionFromClientsAccounts(List <Long> accountsId, String description) {
-		
-		System.out.println(">>>>>>>>accountsId :"+accountsId.toString());
-		System.out.println(">>>>>>>>description :"+description);
 
-		
-System.out.println( em.createNamedQuery("getDebitsByDescriptionFromClientsAccounts", Map.class).setParameter("accountsId", accountsId).setParameter("description", description)
-				.getResultList());
+	public Double getDebitsByDescriptionFromClientsAccounts(Long id, String description) {
+				
+				return em.createNamedQuery("getDebitsByDescriptionFromClientsAccounts", Double.class).setParameter("id", id).setParameter("description", description).getSingleResult();
 	}
 }

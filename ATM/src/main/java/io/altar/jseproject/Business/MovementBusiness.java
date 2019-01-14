@@ -1,14 +1,14 @@
 package io.altar.jseproject.Business;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-import io.altar.jseproject.model.Account;
-import io.altar.jseproject.model.Client;
 import io.altar.jseproject.model.Movement;
 import io.altar.jseproject.model.MovementDTO;
 import io.altar.jseproject.repository.ClientRepository;
@@ -76,38 +76,47 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 	}
 
 	@Transactional
-	public String getDebitsByDescriptionFromClient(Long id) {
-		List<Long> accountIdList = new ArrayList<>();
-	//	Map<String, Double> debitsByDescription = new HashMap<>();
+	public Map<String, Double> getDebitsByDescriptionFromClient(Long id) {
+		Map<String, Double> debitsByDescription = new HashMap<>();
 
-		Client client = cr.getById(id);
+		List<String> debitsDescription = getDebitsDescriptionFromClientsAccount(id);
+		System.out.println(">>>>>>>>>>>>>"+debitsDescription + debitsDescription.toString()+"<<<<<<<<<<<<");
 
-		List<Account> accountList = client.getAccountlist();
-
-
-		for (Account account : accountList) {
-
-			Long accountId = account.getId();
-	
-			accountIdList.add(accountId);
-		}
-
-		System.out.println(accountIdList);
-
-//		List<String> debitsDescription = getDebitsDescriptionFromClientsAccount(accountIdList);
-//		System.out.println(">>>>>>>>>>>>>"+debitsDescription + debitsDescription.toString()+"<<<<<<<<<<<<");
-//	System.out.println(">>>>>>>>esta merda chega aqui ao menos???");
-//		for (String description : debitsDescription) {
+		
+		for (String description : debitsDescription) {
 		
 		System.out.println(">>>>>>>>e aqui???");
 
-//			return repository.getDebitsByDescriptionFromClientsAccounts(accountIdList);
-//			System.out.println(">>>>>>>>debitByDescription :"+debitByDescription);
-//			debitsByDescription.put(description, debitByDescription);
-//		}
-//		System.out.println(debitsByDescription.toString());
-//		return debitsByDescription;
-		return "ok";
+		Double debitByDescription= repository.getDebitsByDescriptionFromClientsAccounts(id,description);
+			System.out.println(">>>>>>>>debitByDescription :"+debitByDescription);
+
+			debitsByDescription.put(description, debitByDescription);
+		}
+		System.out.println(debitsByDescription.toString());
+		return debitsByDescription;
+	}
+
+	
+	
+	@Transactional
+	public Map<String, Double> getCreditsByDescriptionFromClient(Long id) {
+		Map<String, Double> creditsByDescription = new HashMap<>();
+
+		List<String> creditsDescription = getCreditsDescriptionFromClientsAccount(id);
+		System.out.println(">>>>>>>>>>>>>"+creditsDescription + creditsDescription.toString()+"<<<<<<<<<<<<");
+
+		
+		for (String description : creditsDescription) {
+		
+		System.out.println(">>>>>>>>e aqui???");
+
+		Double debitByDescription= repository.getCreditsByDescriptionFromClientsAccounts(id,description);
+			System.out.println(">>>>>>>>debitByDescription :"+debitByDescription);
+
+			creditsByDescription.put(description, debitByDescription);
+		}
+		System.out.println(creditsByDescription.toString());
+		return creditsByDescription;
 	}
 
 }
