@@ -1,10 +1,8 @@
 package io.altar.jseproject.Business;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -78,9 +76,9 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 	}
 
 	@Transactional
-	public Map<String, Double> getDebitsByDescriptionFromClient(Long id) {
+	public String getDebitsByDescriptionFromClient(Long id) {
 		List<Long> accountIdList = new ArrayList<>();
-		Map<String, Double> debitsByDescription = new HashMap<>();
+	//	Map<String, Double> debitsByDescription = new HashMap<>();
 
 		Client client = cr.getById(id);
 
@@ -96,16 +94,20 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 
 		System.out.println(accountIdList);
 
-		List<String> debitsDescription = getDebitsDescriptionFromClientsAccount(id);
+//		List<String> debitsDescription = getDebitsDescriptionFromClientsAccount(accountIdList);
+//		System.out.println(">>>>>>>>>>>>>"+debitsDescription + debitsDescription.toString()+"<<<<<<<<<<<<");
+//	System.out.println(">>>>>>>>esta merda chega aqui ao menos???");
+//		for (String description : debitsDescription) {
+		
+		System.out.println(">>>>>>>>e aqui???");
 
-		for (String description : debitsDescription) {
-
-			Double debitByDescription = repository.getDebitsByDescriptionFromClientsAccounts(accountIdList,
-					description);
-			debitsByDescription.put(description, debitByDescription);
-		}
-		System.out.println(debitsByDescription.toString());
-		return debitsByDescription;
+//			return repository.getDebitsByDescriptionFromClientsAccounts(accountIdList);
+//			System.out.println(">>>>>>>>debitByDescription :"+debitByDescription);
+//			debitsByDescription.put(description, debitByDescription);
+//		}
+//		System.out.println(debitsByDescription.toString());
+//		return debitsByDescription;
+		return "ok";
 	}
 
 }

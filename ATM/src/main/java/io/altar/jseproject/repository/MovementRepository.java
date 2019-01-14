@@ -1,6 +1,7 @@
 package io.altar.jseproject.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import io.altar.jseproject.model.Movement;
 
@@ -30,8 +31,13 @@ public class MovementRepository extends EntityRepository<Movement> {
 				.getResultList();
 	}
 	
-	public Double getDebitsByDescriptionFromClientsAccounts(List <Long> accountsId, String description) {
-		return em.createNamedQuery("getDebitsByDescriptionFromClientsAccounts", Double.class).setParameter("accountsId", accountsId).setParameter("description", description)
-				.getSingleResult();
+	public void getDebitsByDescriptionFromClientsAccounts(List <Long> accountsId, String description) {
+		
+		System.out.println(">>>>>>>>accountsId :"+accountsId.toString());
+		System.out.println(">>>>>>>>description :"+description);
+
+		
+System.out.println( em.createNamedQuery("getDebitsByDescriptionFromClientsAccounts", Map.class).setParameter("accountsId", accountsId).setParameter("description", description)
+				.getResultList());
 	}
 }

@@ -11,16 +11,17 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({ 
 	@NamedQuery(name = "findAllmovements", query = "SELECT c FROM Movement c"),
-	@NamedQuery(name = "getCreditsDescriptionFromClientsAccount", query = "SELECT DISTINCT (a.description) FROM Movement a WHERE a.account.id = :id AND a.debit = 0"),
-	@NamedQuery(name = "getDebitsDescriptionFromClientsAccount", query = "SELECT DISTINCT (a.description) FROM Movement a WHERE a.account.id = :id AND a.credit = 0"),
-	@NamedQuery(name = "getCreditsByDescriptionFromClientsAccount", query = "SELECT SUM (a.credit) FROM Movement a WHERE a.account.id IN :accountsId AND a.debit = 0 AND a.description= :description"),
-	@NamedQuery(name = "getDebitsByDescriptionFromClientsAccount", query = "SELECT SUM (a.debit) FROM Movement a WHERE a.account.id IN :accountsId AND a.credit = 0 AND a.description= :description"),
+	@NamedQuery(name = "getCreditsDescriptionFromClientsAccount", query = "SELECT DISTINCT (a.description) FROM Movement a WHERE a.account.user.id = :id AND a.debit = 0"),
+	@NamedQuery(name = "getDebitsDescriptionFromClientsAccount", query = "SELECT DISTINCT (a.description) FROM Movement a WHERE a.account.user.id = :id AND a.credit = 0"),
+	@NamedQuery(name = "getCreditsByDescriptionFromClientsAccount", query = "SELECT SUM (a.credit) FROM Movement a WHERE a.account.user.id= :id AND a.debit = 0"),
+	@NamedQuery(name = "getDebitsByDescriptionFromClientsAccount", query = "SELECT SUM (a.debit) FROM Movement a WHERE a.account.user.id= :id AND a.credit = 0"),
 
 
 })
 public class Movement extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "account_id")
 	private Account account;
