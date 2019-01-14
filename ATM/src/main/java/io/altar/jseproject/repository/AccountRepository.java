@@ -16,7 +16,21 @@ public class AccountRepository extends EntityRepository<Account> {
 	}
 	 public List<Account> getAccountsFromClient(Long id) {
 		return em.createNamedQuery("findAccountInClient", getEntityClass()).setParameter("id", id).getResultList();
+	}
+	 public List<String> getBanksFromClient(Long id) {
+		 List<String> list=em.createNamedQuery("getBanksFromClient", String.class).setParameter("id", id).getResultList();
+		 for(String account : list) {
+			 System.out.println(account);
+		 }
+		 return list;
 		
 	}
+	 public Double getBankBalanceFromClient(Long id,String bank) {
+		Double bankBalance=em.createNamedQuery("getBankBalanceFromClient", Double.class).setParameter("id", id).setParameter("bank", bank).getSingleResult();
+		 
+			 System.out.println(bank+" :"+bankBalance);
 	
+		 return bankBalance;
+		
+	}
 }

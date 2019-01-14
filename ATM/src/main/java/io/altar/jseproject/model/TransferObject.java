@@ -5,9 +5,12 @@ public class TransferObject {
 	private Long account1Id;
 	private Long account2Id;
 	private Double volume;
+	private String description;
+
 
 	public TransferObject() {
 	}
+
 
 	public Long getAccount1Id() {
 		return account1Id;
@@ -33,5 +36,12 @@ public class TransferObject {
 		this.volume = volume;
 	}
 	
-	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 }

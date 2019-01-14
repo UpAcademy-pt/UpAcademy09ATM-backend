@@ -1,5 +1,7 @@
 package io.altar.jseproject.repository;
 
+import java.util.List;
+
 import io.altar.jseproject.model.Movement;
 
 public class MovementRepository extends EntityRepository<Movement> {
@@ -8,11 +10,28 @@ public class MovementRepository extends EntityRepository<Movement> {
 	protected Class<Movement> getEntityClass() {
 		return Movement.class;
 	}
-	
+
 	@Override
 	protected String getAllEntityQueryName() {
 		return "findAllmovements";
+	}
 
+	public List<String> getCreditsDescriptionFromClientsAccount(Long id) {
+		return em.createNamedQuery("getCreditsDescriptionFromClientsAccount", String.class).setParameter("id", id)
+				.getResultList();
+	}
+	public Double getCreditsByDescriptionFromClientsAccounts(List <Long> accountsId, String description) {
+		return em.createNamedQuery("getCreditsByDescriptionFromClientsAccounts", Double.class).setParameter("accountsId", accountsId).setParameter("description", description)
+				.getSingleResult();
+	}
 	
+	public List<String> getDebitsDescriptionFromClientsAccount(Long id) {
+		return em.createNamedQuery("getDebitsDescriptionFromClientsAccount", String.class).setParameter("id", id)
+				.getResultList();
+	}
+	
+	public Double getDebitsByDescriptionFromClientsAccounts(List <Long> accountsId, String description) {
+		return em.createNamedQuery("getDebitsByDescriptionFromClientsAccounts", Double.class).setParameter("accountsId", accountsId).setParameter("description", description)
+				.getSingleResult();
 	}
 }

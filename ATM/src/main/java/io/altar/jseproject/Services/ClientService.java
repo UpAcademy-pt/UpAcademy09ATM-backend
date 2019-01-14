@@ -20,9 +20,15 @@ public class ClientService extends EntityService<ClientBusiness, ClientRepositor
 	private LoginService login;
 
 	@GET
-	@Path("/{id}")
+	@Path("/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getEntityById(Credential credential, @PathParam("id") long id) {
+	public Response getEntityById(@PathParam("id") long id,@PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
+
 		if (login.verifyEspechial(credential) == true) {
 			return Response.ok(business.getClientById(id)).build();
 		} else {
@@ -31,9 +37,15 @@ public class ClientService extends EntityService<ClientBusiness, ClientRepositor
 	}
 
 	@GET
-	@Path("/listentity")
+	@Path("/listentity/{token}/{expire}/{espechial}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listEntity(Credential credential) {
+	public Response listEntity(@PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
+		
 		if (login.verifyEspechial(credential) == true) {
 			return Response.ok(business.getAllClient()).build();
 		} else {
@@ -42,9 +54,12 @@ public class ClientService extends EntityService<ClientBusiness, ClientRepositor
 	}
 
 	@GET
-	@Path("/getallaccountsfromclient/{id}")
+	@Path("/getallaccountsfromclient/{id}/{token}/{expire}/{espechial}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllAccountsFromClientId(Credential credential,@PathParam("id") long id) {
+	public Response getAllAccountsFromClientId(@PathParam("id") long id,@PathParam("token") Integer token, @PathParam("expire") Long expire) {
+		Credential credential = new Credential();
+		credential.setExpire(expire);
+		credential.setToken(token);
 		if (login.verifyNormal(credential) == true) {
 			return Response.ok(business.getAllAccountsFromClient(id)).build();
 		} else {

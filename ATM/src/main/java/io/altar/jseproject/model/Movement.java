@@ -5,15 +5,24 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQuery(name = "findAllmovements", query = "SELECT c FROM Movement c")
+@NamedQueries({ 
+	@NamedQuery(name = "findAllmovements", query = "SELECT c FROM Movement c"),
+	@NamedQuery(name = "getCreditsDescriptionFromClientsAccount", query = "SELECT DISTINCT (a.description) FROM Movement a WHERE a.account.id = :id AND a.debit = 0"),
+	@NamedQuery(name = "getDebitsDescriptionFromClientsAccount", query = "SELECT DISTINCT (a.description) FROM Movement a WHERE a.account.id = :id AND a.credit = 0"),
+	@NamedQuery(name = "getCreditsByDescriptionFromClientsAccount", query = "SELECT SUM (a.credit) FROM Movement a WHERE a.account.id IN :accountsId AND a.debit = 0 AND a.description= :description"),
+	@NamedQuery(name = "getDebitsByDescriptionFromClientsAccount", query = "SELECT SUM (a.debit) FROM Movement a WHERE a.account.id IN :accountsId AND a.credit = 0 AND a.description= :description"),
+
+
+})
 public class Movement extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch=FetchType.LAZY,cascade =CascadeType.PERSIST)
-	 @JoinColumn(name="account_id")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "account_id")
 	private Account account;
 	private Long date;
 	private String description;
@@ -33,11 +42,9 @@ public class Movement extends BaseEntity {
 	public Movement() {
 	}
 
-	
 	public Account getAccount() {
 		return account;
 	}
-
 
 	public Long getDate() {
 		return date;
@@ -78,6 +85,7 @@ public class Movement extends BaseEntity {
 	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

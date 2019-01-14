@@ -13,7 +13,11 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "findAllAccounts", query = "SELECT a FROM Account a"),
-		@NamedQuery(name = "findAccountInClient", query = "SELECT a FROM Account a WHERE a.user.id = :id") })
+		@NamedQuery(name = "findAccountInClient", query = "SELECT a FROM Account a WHERE a.user.id = :id"),
+@NamedQuery(name = "getBanksFromClient", query = "SELECT DISTINCT (a.bank) FROM Account a WHERE a.user.id = :id"), 
+@NamedQuery(name = "getBankBalanceFromClient", query = "SELECT SUM(a.balance) FROM Account a WHERE a.user.id = :id AND a.bank = :bank")
+})
+
 
 public class Account extends BaseEntity {
 
@@ -22,14 +26,16 @@ public class Account extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY,cascade =CascadeType.PERSIST)
 	@JoinColumn(name = "user_id")
 	private Client user;
-
+private String bank;
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade =CascadeType.ALL,orphanRemoval=true)
 	private List<Movement> movementlist;
 
 	private Double balance;
 
-	public Account(Client user, List<Movement> movementlist, Double balance) {
+	public Account(Client user, String bank, List<Movement> movementlist, Double balance) {
+		super();
 		this.user = user;
+		this.bank = bank;
 		this.movementlist = movementlist;
 		this.balance = balance;
 	}
@@ -43,6 +49,14 @@ public class Account extends BaseEntity {
 
 	public void setUser(Client user) {
 		this.user = user;
+	}
+
+	public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
 	}
 
 	public List<Movement> getMovementlist() {

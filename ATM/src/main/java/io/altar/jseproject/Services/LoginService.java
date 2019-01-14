@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -82,6 +83,27 @@ public class LoginService {
 			return Response.status(Response.Status.NOT_FOUND).entity("Dados invalidos").build();
 
 		}
+	}
+
+	@POST
+	@Path("/logout/{token}/{expire}/{espechial}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Transactional
+
+	public Response Logout(@PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
+		System.out.println(credential);
+		Client cli = getClientByToken(credential);
+		cli.setToken(null);
+
+		Response response = Response.ok("logout").build();
+		return response;
+
 	}
 
 	public Integer generateTokenValue(Long cliId, Date time0) {
@@ -200,28 +222,32 @@ public class LoginService {
 
 	public boolean verifyEspechial(Credential credential) {
 
-		if (credential.getToken() == null || credential.getExpire() == null|| credential.getEspechial() == null) {
-			System.out.println(">>>>>>>cookies com problemas");
+		if (credential.getToken() == null || credential.getExpire() == null || credential.getEspechial() == null) {
+			System.out.println(">>>>>>>credenciais com problemas");
 			return false;
 
 		} else {
-			System.out.println(">>>>>>>>Cookie espechical existe");
+			System.out.println(">>>>>>>>credencial espechical existe");
 			Client cli = getClientByToken(credential);
 			System.out.println(">>>>>>>>>cliente encontrado através de cookie");
 			String cliName = cli.getName();
-
+			System.out.println(cliName);
 			if (cliName.equals("Malaquias") == true) {
 
 				return false;
 
 			} else {
-				Integer espechial= credential.getEspechial();
-				Integer espechialValue = generateEspechialValue(espechial.toString());
+				Integer espechial = credential.getEspechial();
+				System.out.println(espechial);
+				Integer espechialValue = generateEspechialValue(credential.getExpire().toString());
+System.out.println(espechialValue);
+				if ( espechial.equals(espechialValue)) {
+					System.out.println("é igual");
 
-				if (espechialValue==espechial) {
 					return true;
 
 				} else {
+					System.out.println("não é igual");
 					return false;
 				}
 
@@ -229,18 +255,6 @@ public class LoginService {
 		}
 	}
 
-	@POST
-	@Path("/logout")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Transactional
-	public Response Logout(Credential credential) {
-		Client cli = getClientByToken(credential);
-		cli.setToken(null);
 
-		Response response = Response.ok("logout").build();
-		return response;
-
-	}
 
 }

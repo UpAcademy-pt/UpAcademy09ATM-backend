@@ -24,10 +24,13 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	private LoginService login;
 	
 	@POST
-	@Path("/transfer")
+	@Path("/transfer/{token}/{expire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response transfer(Credential credential,TransferObject transfer) {
+	public Response transfer(TransferObject transfer,@PathParam("token") Integer token, @PathParam("expire") Long expire) {
+		Credential credential = new Credential();
+		credential.setExpire(expire);
+		credential.setToken(token);
 		if (login.verifyNormal(credential) == true) {
 			
 			
@@ -37,10 +40,13 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 		}
 	}
 	@POST
-	@Path("/deposit")
+	@Path("/deposit/{token}/{expire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deposit(Credential credential,TransferObject deposit) {
+	public Response deposit(TransferObject deposit,@PathParam("token") Integer token, @PathParam("expire") Long expire) {
+		Credential credential = new Credential();
+		credential.setExpire(expire);
+		credential.setToken(token);
 		System.out.println(">>>>>>>>>>>>>esta é a id recebida pelo postman :"+deposit.getAccount1Id());
 
 		if (login.verifyNormal(credential) == true) {
@@ -50,10 +56,13 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 		}
 	}
 	@POST
-	@Path("/pickup")
+	@Path("/pickup/{token}/{expire}/{espechial}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response pickup(Credential credential,TransferObject pickup) {
+	public Response pickup(TransferObject pickup,@PathParam("token") Integer token, @PathParam("expire") Long expire) {
+		Credential credential = new Credential();
+		credential.setExpire(expire);
+		credential.setToken(token);
 		if (login.verifyNormal(credential) == true) {
 			return Response.ok(business.moneyPickup(pickup)).build();
 		} else {
@@ -61,9 +70,14 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 		}
 	}
 	@GET
-	@Path("/{id}")
+	@Path("/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getEntityById(@PathParam("id") long id, Credential credential,TransferObject pickup) {
+	public Response getEntityById(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
 		if (login.verifyEspechial(credential) == true) {
 			return Response.ok(business.getEntityById(id)).build();
 		} else {
@@ -72,9 +86,12 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	}
 	
 	@GET
-	@Path("getallmovementsfromaccount/{id}")
+	@Path("getallmovementsfromaccount/{id}/{token}/{expire}")
 	@Produces("application/json")
-	public Response getAllmovementsFromAccount(@PathParam("id") long id, Credential credential,TransferObject pickup) {
+	public Response getAllmovementsFromAccount(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire) {
+		Credential credential = new Credential();
+		credential.setExpire(expire);
+		credential.setToken(token);
 		if (login.verifyNormal(credential) == true) {
 			return Response.ok(business.getAllmovementsFromAccount(id)).build();
 		} else {
@@ -82,11 +99,43 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 		}
 	}
 	@GET
-	@Path("/listentity")
+	@Path("/listentity/{token}/{expire}/{espechial}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listEntity(Credential credential) {
+	public Response listEntity(@PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
 		if (login.verifyEspechial(credential) == true) {
 			return Response.ok(business.getAllEntity()).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
+	
+	@GET
+	@Path("getbanksfromclient/{id}/{token}/{expire}")
+	@Produces("application/json")
+	public Response getBanksFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire) {
+		Credential credential = new Credential();
+		credential.setExpire(expire);
+		credential.setToken(token);
+		if (login.verifyNormal(credential) == true) {
+			return Response.ok(business.getBanksFromClient(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
+	@GET
+	@Path("getbanksbalancefromclient/{id}/{token}/{expire}")
+	@Produces("application/json")
+	public Response getBanksBalanceFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire) {
+		Credential credential = new Credential();
+		credential.setExpire(expire);
+		credential.setToken(token);
+		if (login.verifyNormal(credential) == true) {
+			return Response.ok(business.getBanksBalanceFromClient(id)).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();
 		}

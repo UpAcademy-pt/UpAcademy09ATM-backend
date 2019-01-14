@@ -1,15 +1,26 @@
 package io.altar.jseproject.Business;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+
+import io.altar.jseproject.model.Account;
+import io.altar.jseproject.model.Client;
 import io.altar.jseproject.model.Movement;
 import io.altar.jseproject.model.MovementDTO;
+import io.altar.jseproject.repository.ClientRepository;
 import io.altar.jseproject.repository.MovementRepository;
 
-public class MovementBusiness extends EntityBusiness<MovementRepository, Movement>{
-	
+public class MovementBusiness extends EntityBusiness<MovementRepository, Movement> {
+
+	@Inject
+	protected ClientRepository cr;
+
 	public MovementDTO getEntityById(Long id) {
 		Movement movement = repository.getById(id);
 
@@ -25,8 +36,8 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 		return movementDTO;
 	}
 
-	public List<MovementDTO> generateMovementDTOListFromMovementList(List<Movement> movementList){
-		
+	public List<MovementDTO> generateMovementDTOListFromMovementList(List<Movement> movementList) {
+
 		List<MovementDTO> movementDTOList = new ArrayList<>();
 		Iterator<Movement> iterator = movementList.iterator();
 
@@ -43,7 +54,7 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 
 			movementDTOList.add(movementDTO);
 		}
-		
+
 		return movementDTOList;
 	}
 
@@ -53,4 +64,48 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 
 		return movementDTOList;
 	}
+
+	@Transactional
+	public List<String> getCreditsDescriptionFromClientsAccount(Long id) {
+
+		return repository.getCreditsDescriptionFromClientsAccount(id);
+	}
+
+	@Transactional
+	public List<String> getDebitsDescriptionFromClientsAccount(Long id) {
+
+		return repository.getDebitsDescriptionFromClientsAccount(id);
+	}
+
+	@Transactional
+	public Map<String, Double> getDebitsByDescriptionFromClient(Long id) {
+		List<Long> accountIdList = new ArrayList<>();
+		Map<String, Double> debitsByDescription = new HashMap<>();
+
+		Client client = cr.getById(id);
+
+		List<Account> accountList = client.getAccountlist();
+
+
+		for (Account account : accountList) {
+
+			Long accountId = account.getId();
+	
+			accountIdList.add(accountId);
+		}
+
+		System.out.println(accountIdList);
+
+		List<String> debitsDescription = getDebitsDescriptionFromClientsAccount(id);
+
+		for (String description : debitsDescription) {
+
+			Double debitByDescription = repository.getDebitsByDescriptionFromClientsAccounts(accountIdList,
+					description);
+			debitsByDescription.put(description, debitByDescription);
+		}
+		System.out.println(debitsByDescription.toString());
+		return debitsByDescription;
+	}
+
 }

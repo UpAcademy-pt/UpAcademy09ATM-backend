@@ -16,7 +16,6 @@ import javax.ws.rs.core.UriInfo;
 import io.altar.jseproject.Business.EntityBusiness;
 import io.altar.jseproject.model.BaseEntity;
 import io.altar.jseproject.model.Credential;
-import io.altar.jseproject.model.TransferObject;
 import io.altar.jseproject.repository.EntityRepository;
 
 public abstract class EntityService<R extends EntityBusiness<S, T>, S extends EntityRepository<T>, T extends BaseEntity> {
@@ -38,16 +37,25 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 	}
 
 	@POST
-	@Path("/newentity")
+	@Path("/newentity/{token}/{expire}/{espechial}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response newEntity(T entity,Credential credential) {
+	public Response newEntity(T entity,@PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
 
 		System.out.println(">>>>>>>>>>verificar se é espechial");
 		if (login.verifyEspechial(credential) == true) {
+			
 			System.out.println(">>>>>>>>>>>>> é espechial");
+			
 			T newEntity = business.newEntity(entity);
+			
 			Long id=newEntity.getId();
+			
 			return Response.ok("A entidade com o id :"+id+" foi criada com sucesso").build();
 		} else {
 			System.out.println(">>>>>>>>>>>>> não é espechial");
@@ -58,10 +66,15 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 	}
 
 	@POST
-	@Path("/changeentity")
+	@Path("/changeentity/{token}/{expire}/{espechial}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response changeEntity(T entity, Credential credential,TransferObject transfer) {
+	public Response changeEntity(T entity,@PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
 		if (login.verifyEspechial(credential) == true) {
 
 			T changedEntity = business.changeEntity(entity);
@@ -96,9 +109,14 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 //	}
 
 	@DELETE
-	@Path("/{id}")
+	@Path("/{id}/{token}/{expire}/{espechial}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response deleteEntity(@PathParam("id") long id, Credential credential,TransferObject transfer) {
+	public Response deleteEntity(@PathParam("id") long id,@PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
 		if (login.verifyEspechial(credential) == true) {
 			return Response.ok(business.deleteEntity(id)).build();
 		} else {

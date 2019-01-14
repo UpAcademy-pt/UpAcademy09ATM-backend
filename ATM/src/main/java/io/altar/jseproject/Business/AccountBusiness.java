@@ -2,8 +2,10 @@ package io.altar.jseproject.Business;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -21,8 +23,6 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 	@Inject
 	private MovementBusiness movement;
 
-	protected AccountRepository ar;
-
 	@Inject
 	protected MovementRepository mr;
 
@@ -38,8 +38,8 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 
 		String description = "Transference from Account nº" + account1Id + " to Account nº" + account2Id;
 
-		Account account1 = ar.getById(account1Id);
-		Account account2 = ar.getById(account2Id);
+		Account account1 = repository.getById(account1Id);
+		Account account2 = repository.getById(account2Id);
 
 		double debitBalance = account1.getBalance() - volume;
 		double creditBalance = account2.getBalance() + volume;
@@ -66,14 +66,13 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 
 		Long time = new Date().getTime();
 
-		String description = "Money pickup from Account nº" + account1Id;
-
-		Account account1 = ar.getById(account1Id);
+		Account account1 = repository.getById(account1Id);
 
 		double debitBalance = account1.getBalance() - volume;
 
 		if (account1.getBalance() >= volume) {
-			Movement movement1 = new Movement(account1, time, description, volume, (Double) 0.0, debitBalance);
+			Movement movement1 = new Movement(account1, time, pickup.getDescription(), volume, (Double) 0.0, debitBalance);
+
 			mr.addToDB(movement1);
 
 			account1.setBalance(debitBalance);
@@ -94,13 +93,12 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 
 		Long time = new Date().getTime();
 
-		String description = "Money deposit to Account nº" + account1Id;
 		System.out.println(">>>>>>>>>>>>>>> esta é a id da conta a receber o depósito :" + account1Id);
-		Account account1 = ar.getById(account1Id);
-
+		Account account1 = repository.getById(account1Id);
+System.out.println("conta encontrada :"+account1);
 		double creditBalance = account1.getBalance() + volume;
 
-		Movement movement1 = new Movement(account1, time, description, volume, (Double) 0.0, creditBalance);
+		Movement movement1 = new Movement(account1, time, deposit.getDescription(), volume, (Double) 0.0, creditBalance);
 		mr.addToDB(movement1);
 
 		account1.setBalance(creditBalance);
@@ -114,6 +112,7 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 		AccountDTO AccountDTO = new AccountDTO();
 
 		AccountDTO.setId(account.getId());
+		AccountDTO.setBank(account.getBank());
 		AccountDTO.setBalance(account.getBalance());
 
 		return AccountDTO;
@@ -136,6 +135,7 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 			AccountDTO AccountDTO = new AccountDTO();
 
 			AccountDTO.setId(account.getId());
+			AccountDTO.setBank(account.getBank());
 			AccountDTO.setBalance(account.getBalance());
 
 			accountDTOList.add(AccountDTO);
@@ -150,5 +150,26 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 		List<AccountDTO> accountDTOList = generateAccountDTOListFromAccountList(accountList);
 
 		return accountDTOList;
+	}
+	@Transactional
+	public List<String> getBanksFromClient(Long id) {
+
+		return repository.getBanksFromClient(id);
+	}
+	@Transactional
+	public Map<String, Double> getBanksBalanceFromClient(Long id) {
+
+		Map<String, Double> bankBalanceList = new HashMap<String, Double>();
+		
+		List<String> bankList = repository.getBanksFromClient(id);
+
+		for (String bank : bankList) {
+
+			Double bankBalance = repository.getBankBalanceFromClient(id, bank);
+			bankBalanceList.put(bank, bankBalance);
+		}
+		System.out.println(bankBalanceList.toString());
+		
+		return bankBalanceList;
 	}
 }
