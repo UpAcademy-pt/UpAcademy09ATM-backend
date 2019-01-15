@@ -155,7 +155,7 @@ public class LoginService {
 	public Response loginEspechial(Client login) {
 		Date time0 = new Date();
 
-		Integer time1 = 90000;
+		Integer time1 = 1000000000;
 		Long cliId = login.getId();
 
 		Integer token = generateTokenValue(cliId, time0);
