@@ -34,6 +34,7 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 		return movementDTO;
 	}
 
+	@Transactional
 	public List<MovementDTO> generateMovementDTOListFromMovementList(List<Movement> movementList) {
 
 		List<MovementDTO> movementDTOList = new ArrayList<>();
@@ -49,6 +50,9 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 			movementDTO.setDate(movement.getDate());
 			movementDTO.setDebit(movement.getDebit());
 			movementDTO.setDescription(movement.getDescription());
+			movementDTO.setAccountId(movement.getAccount().getId());
+			movementDTO.setBank(movement.getAccount().getBank());
+
 
 			movementDTOList.add(movementDTO);
 		}
@@ -63,6 +67,7 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 		return movementDTOList;
 	}
 	
+	@Transactional
 	public List<MovementDTO> findAllMovementsFromClient(Long id) {
 		List<Movement> movementList = repository.findAllMovementsFromClient(id);
 		List<MovementDTO> movementDTOList = generateMovementDTOListFromMovementList(movementList);
@@ -103,8 +108,6 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 		return debitsByDescription;
 	}
 
-	
-	
 	@Transactional
 	public Map<String, Double> getCreditsByDescriptionFromClient(Long id) {
 		Map<String, Double> creditsByDescription = new HashMap<>();

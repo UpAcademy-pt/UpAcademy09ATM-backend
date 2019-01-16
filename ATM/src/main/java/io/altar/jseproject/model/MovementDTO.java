@@ -2,15 +2,20 @@ package io.altar.jseproject.model;
 
 public class MovementDTO {
 
+	private String bank;
+	private Long accountId;
 	private Long id;
 	private Long date;
 	private String description;
 	private Double debit;
 	private Double credit;
 	private Double balance;
-
-	public MovementDTO(Long id, Long date, String description, Double debit, Double credit, Double balance) {
+	
+	public MovementDTO(String bank, Long accountId, Long id, Long date, String description, Double debit, Double credit,
+			Double balance) {
 		super();
+		this.bank = bank;
+		this.accountId = accountId;
 		this.id = id;
 		this.date = date;
 		this.description = description;
@@ -20,6 +25,22 @@ public class MovementDTO {
 	}
 
 	public MovementDTO() {
+	}
+	
+	public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public Long getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(Long accountId) {
+		this.accountId = accountId;
 	}
 
 	public Long getId() {
@@ -69,5 +90,5 @@ public class MovementDTO {
 	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
-
+	
 }
