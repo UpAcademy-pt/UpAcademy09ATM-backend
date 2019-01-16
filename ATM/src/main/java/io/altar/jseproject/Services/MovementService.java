@@ -122,7 +122,7 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 		credential.setExpire(expire);
 		credential.setToken(token);
 		if (login.verifyEspechial(credential) == true) {
-			return Response.ok(business.getDebitsByDescriptionFromClient(id)).build();
+			return Response.ok(business.getCreditsByDescriptionFromClient(id)).build();
 		} else {
 			return Response.serverError().entity("goToLogin").build();
 		}
