@@ -111,7 +111,7 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 		System.out.println(">>>>>>>>e aqui???");
 
 		Double debitByDescription= repository.getCreditsByDescriptionFromClientsAccounts(id,description);
-			System.out.println(">>>>>>>>debitByDescription :"+debitByDescription);
+			System.out.println(">>>>>>>>dcreditByDescription :"+debitByDescription);
 
 			creditsByDescription.put(description, debitByDescription);
 		}
