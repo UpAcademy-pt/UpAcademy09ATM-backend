@@ -11,7 +11,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({ 
 	@NamedQuery(name = "findAllmovements", query = "SELECT c FROM Movement c"),
-	@NamedQuery(name = "findAllmovementsFromClient", query = "SELECT a FROM Movement a WHERE a.account.user.id = :id"),
+	@NamedQuery(name = "findAllMovementsFromClient", query = "SELECT a FROM Movement a WHERE a.account.user.id = :id"),
 	@NamedQuery(name = "getCreditsDescriptionFromClientsAccount", query = "SELECT DISTINCT (a.description) FROM Movement a WHERE a.account.user.id = :id AND a.debit = 0"),
 	@NamedQuery(name = "getDebitsDescriptionFromClientsAccount", query = "SELECT DISTINCT (a.description) FROM Movement a WHERE a.account.user.id = :id AND a.credit = 0"),
 	@NamedQuery(name = "getCreditsByDescriptionFromClientsAccounts", query = "SELECT SUM (a.credit) FROM Movement a WHERE a.account.user.id= :id AND a.debit = 0 AND a.description= :description"),

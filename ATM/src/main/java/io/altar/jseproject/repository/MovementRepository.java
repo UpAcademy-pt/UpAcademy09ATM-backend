@@ -16,8 +16,8 @@ public class MovementRepository extends EntityRepository<Movement> {
 		return "findAllmovements";
 	}
 
-	public List<Movement> findAllmovementsFromClient(Long id) {
-		return em.createNamedQuery("findAllmovementsFromClient", getEntityClass()).setParameter("id", id)
+	public List<Movement> findAllMovementsFromClient(Long id) {
+		return em.createNamedQuery("findAllMovementsFromClient", getEntityClass()).setParameter("id", id)
 				.getResultList();
 	}
 
