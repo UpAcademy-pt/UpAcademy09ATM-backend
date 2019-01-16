@@ -50,6 +50,22 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 			return Response.serverError().entity("goToLogin").build();
 		}
 	}
+	
+	@GET
+	@Path("findallmovementsfromclient/{id}/{token}/{expire}/{espechial}")
+	@Produces("application/json")
+	public Response findAllMovementsFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
+		if (login.verifyEspechial(credential) == true) {
+			return Response.ok(business.findAllMovementsFromClient(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
 	@GET
 	@Path("getcreditscescriptionfromclientsaccount/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")

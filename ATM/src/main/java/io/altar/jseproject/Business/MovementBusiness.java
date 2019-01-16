@@ -62,6 +62,13 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 
 		return movementDTOList;
 	}
+	
+	public List<MovementDTO> findAllMovementsFromClient(Long id) {
+		List<Movement> movementList = repository.findAllMovementsFromClient(id);
+		List<MovementDTO> movementDTOList = generateMovementDTOListFromMovementList(movementList);
+
+		return movementDTOList;
+	}
 
 	@Transactional
 	public List<String> getCreditsDescriptionFromClientsAccount(Long id) {
