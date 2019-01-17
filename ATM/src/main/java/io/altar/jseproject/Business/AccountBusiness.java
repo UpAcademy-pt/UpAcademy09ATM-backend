@@ -37,7 +37,9 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 		Double volume = transfer.getVolume();
 
 		String description = "Transference from Account nº" + account1Id + " to Account nº" + account2Id;
+		String type = "transfer";
 
+		
 		Account account1 = repository.getById(account1Id);
 		Account account2 = repository.getById(account2Id);
 
@@ -45,9 +47,9 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 		double creditBalance = account2.getBalance() + volume;
 
 		if (account1.getBalance() >= volume) {
-			Movement movement1 = new Movement(account1, time, description, volume, (Double) 0.0, debitBalance);
+			Movement movement1 = new Movement(account1, time, description,type ,volume, (Double) 0.0, debitBalance);
 			mr.addToDB(movement1);
-			Movement movement2 = new Movement(account2, time, description, (Double) 0.0, volume, creditBalance);
+			Movement movement2 = new Movement(account2, time, description,type,  (Double) 0.0, volume, creditBalance);
 			mr.addToDB(movement2);
 
 			account1.setBalance(debitBalance);
@@ -70,8 +72,10 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 
 		double debitBalance = account1.getBalance() - volume;
 
+		String type = "pickup";
+
 		if (account1.getBalance() >= volume) {
-			Movement movement1 = new Movement(account1, time, pickup.getDescription(), volume, (Double) 0.0, debitBalance);
+			Movement movement1 = new Movement(account1, time, pickup.getDescription(),type ,volume, (Double) 0.0, debitBalance);
 
 			mr.addToDB(movement1);
 
@@ -97,8 +101,9 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 		Account account1 = repository.getById(account1Id);
 System.out.println("conta encontrada :"+account1);
 		double creditBalance = account1.getBalance() + volume;
+		String type = "deposit";
 
-		Movement movement1 = new Movement(account1, time, deposit.getDescription(), volume, (Double) 0.0, creditBalance);
+		Movement movement1 = new Movement(account1, time, deposit.getDescription(),type , volume, (Double) 0.0, creditBalance);
 		mr.addToDB(movement1);
 
 		account1.setBalance(creditBalance);
@@ -151,11 +156,13 @@ System.out.println("conta encontrada :"+account1);
 
 		return accountDTOList;
 	}
+
 	@Transactional
 	public List<String> getBanksFromClient(Long id) {
 
 		return repository.getBanksFromClient(id);
 	}
+
 	@Transactional
 	public Map<String, Double> getBanksBalanceFromClient(Long id) {
 

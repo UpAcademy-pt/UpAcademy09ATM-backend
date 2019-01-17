@@ -127,4 +127,65 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 			return Response.serverError().entity("goToLogin").build();
 		}
 	}
+	@GET
+	@Path("getcreditstypefromclientsaccount/{id}/{token}/{expire}/{espechial}")
+	@Produces("application/json")
+	public Response getCreditsTypeFromClientsAccount(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
+		if (login.verifyEspechial(credential) == true) {
+			return Response.ok(business.getCreditsTypeFromClientsAccount(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
+	@GET
+	@Path("getdebitstypefromclientsaccount/{id}/{token}/{expire}/{espechial}")
+	@Produces("application/json")
+	public Response getDebitsTypeFromClientsAccount(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
+		if (login.verifyEspechial(credential) == true) {
+			return Response.ok(business.getDebitsTypeFromClientsAccount(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
+	
+	@GET
+	@Path("getdebitsbytypefromclient/{id}/{token}/{expire}/{espechial}")
+	@Produces("application/json")
+	public Response getDebitsByTypeFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
+		if (login.verifyEspechial(credential) == true) {
+			return Response.ok(business.getDebitsByTypeFromClient(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
+	@GET
+	@Path("getcreditsbytypefromclient/{id}/{token}/{expire}/{espechial}")
+	@Produces("application/json")
+	public Response getCreditsByTypeFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Integer espechial) {
+		Credential credential = new Credential();
+		credential.setEspechial(espechial);
+		credential.setExpire(expire);
+		credential.setToken(token);
+		if (login.verifyEspechial(credential) == true) {
+			return Response.ok(business.getDebitsByTypeFromClient(id)).build();
+		} else {
+			return Response.serverError().entity("goToLogin").build();
+		}
+	}
 }

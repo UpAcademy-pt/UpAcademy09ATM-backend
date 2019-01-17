@@ -40,4 +40,23 @@ public class MovementRepository extends EntityRepository<Movement> {
 				
 				return em.createNamedQuery("getDebitsByDescriptionFromClientsAccounts", Double.class).setParameter("id", id).setParameter("description", description).getSingleResult();
 	}
-}
+	public List<String> getCreditsTypeFromClientsAccount(Long id) {
+		return em.createNamedQuery("getCreditsTypeFromClientsAccount", String.class).setParameter("id", id)
+				.getResultList();
+	}
+
+	public Double getCreditsByTypeFromClientsAccounts(Long id, String Type) {
+		return em.createNamedQuery("getCreditsByTypeFromClientsAccounts", Double.class).setParameter("id", id)
+				.setParameter("Type", Type).getSingleResult();
+	}
+
+	public List<String> getDebitsTypeFromClientsAccount(Long id) {
+		return em.createNamedQuery("getDebitsTypeFromClientsAccount", String.class).setParameter("id", id)
+				.getResultList();
+	}
+
+	public Double getDebitsByTypeFromClientsAccounts(Long id, String Type) {
+				
+				return em.createNamedQuery("getDebitsByTypeFromClientsAccounts", Double.class).setParameter("id", id).setParameter("Type", Type).getSingleResult();
+	}
+	}

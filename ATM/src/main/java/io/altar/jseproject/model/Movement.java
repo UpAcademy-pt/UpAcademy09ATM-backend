@@ -16,7 +16,10 @@ import javax.persistence.NamedQuery;
 	@NamedQuery(name = "getDebitsDescriptionFromClientsAccount", query = "SELECT DISTINCT (a.description) FROM Movement a WHERE a.account.user.id = :id AND a.credit = 0"),
 	@NamedQuery(name = "getCreditsByDescriptionFromClientsAccounts", query = "SELECT SUM (a.credit) FROM Movement a WHERE a.account.user.id= :id AND a.debit = 0 AND a.description= :description"),
 	@NamedQuery(name = "getDebitsByDescriptionFromClientsAccounts", query = "SELECT SUM (a.debit) FROM Movement a WHERE a.account.user.id= :id AND a.credit = 0 AND a.description= :description"),
-
+	@NamedQuery(name = "getCreditsTypeFromClientsAccount", query = "SELECT DISTINCT (a.type) FROM Movement a WHERE a.account.user.id = :id AND a.debit = 0"),
+	@NamedQuery(name = "getDebitsTypeFromClientsAccount", query = "SELECT DISTINCT (a.type) FROM Movement a WHERE a.account.user.id = :id AND a.credit = 0"),
+	@NamedQuery(name = "getCreditsByTypeFromClientsAccounts", query = "SELECT SUM (a.credit) FROM Movement a WHERE a.account.user.id= :id AND a.debit = 0 AND a.type= :type"),
+	@NamedQuery(name = "getDebitsByTypeFromClientsAccounts", query = "SELECT SUM (a.debit) FROM Movement a WHERE a.account.user.id= :id AND a.credit = 0 AND a.type= :type"),
 
 })
 public class Movement extends BaseEntity {
@@ -28,14 +31,19 @@ public class Movement extends BaseEntity {
 	private Account account;
 	private Long date;
 	private String description;
+	private String type;
 	private Double debit;
 	private Double credit;
 	private Double balance;
 
-	public Movement(Account account, Long date, String description, Double debit, Double credit, Double balance) {
+
+
+	public Movement(Account account, Long date, String description, String type, Double debit, Double credit,
+			Double balance) {
 		this.account = account;
 		this.date = date;
 		this.description = description;
+		this.type = type;
 		this.debit = debit;
 		this.credit = credit;
 		this.balance = balance;
@@ -46,6 +54,10 @@ public class Movement extends BaseEntity {
 
 	public Account getAccount() {
 		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public Long getDate() {
@@ -62,6 +74,14 @@ public class Movement extends BaseEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Double getDebit() {
@@ -91,4 +111,5 @@ public class Movement extends BaseEntity {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 }

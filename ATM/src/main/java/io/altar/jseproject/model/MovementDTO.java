@@ -7,11 +7,12 @@ public class MovementDTO {
 	private Long id;
 	private Long date;
 	private String description;
+	private String type;
 	private Double debit;
 	private Double credit;
 	private Double balance;
 	
-	public MovementDTO(String bank, Long accountId, Long id, Long date, String description, Double debit, Double credit,
+	public MovementDTO(String bank, Long accountId, Long id, Long date, String description,String type, Double debit, Double credit,
 			Double balance) {
 		super();
 		this.bank = bank;
@@ -19,6 +20,7 @@ public class MovementDTO {
 		this.id = id;
 		this.date = date;
 		this.description = description;
+		this.type = type;
 		this.debit = debit;
 		this.credit = credit;
 		this.balance = balance;
@@ -65,6 +67,14 @@ public class MovementDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Double getDebit() {
