@@ -40,8 +40,8 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 	@Path("/newentity/{token}/{expire}/{espechial}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response newEntity(T entity,@PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response newEntity(T entity,@PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -69,8 +69,8 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 	@Path("/changeentity/{token}/{expire}/{espechial}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response changeEntity(T entity,@PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response changeEntity(T entity,@PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -85,34 +85,11 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 		}
 	}
 
-//	@GET
-//	@Path("/{id}")
-//	@Produces("application/json")
-//	public Response getEntityById(@PathParam("id") long id, @CookieParam("token") Cookie token,
-//			@CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
-//		if (login.verifyEspechial(token, expire, espechial) == true) {
-//			return Response.ok(business.getEntityById(id)).build();
-//		} else {
-//			return Response.serverError().entity("goToLogin").build();
-//		}
-//	}
-//
-//	@GET
-//	@Path("/listentity")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response listEntity(@CookieParam("token") Cookie token, @CookieParam("expire") Cookie expire, @CookieParam("espechial") Cookie espechial) {
-//		if (login.verifyEspechial(token, expire, espechial) == true) {
-//			return Response.ok(business.getAllEntity()).build();
-//		} else {
-//			return Response.serverError().entity("goToLogin").build();
-//		}
-//	}
-
 	@DELETE
 	@Path("/{id}/{token}/{expire}/{espechial}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response deleteEntity(@PathParam("id") long id,@PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response deleteEntity(@PathParam("id") Long id,@PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);

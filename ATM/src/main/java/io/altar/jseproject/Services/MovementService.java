@@ -22,8 +22,8 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 	@GET
 	@Path("/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getEntityById(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response getEntityById(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -38,8 +38,8 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 	@GET
 	@Path("/listentity/{token}/{expire}/{espechial}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listEntity(@PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response listEntity(@PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -52,10 +52,10 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 	}
 	
 	@GET
-	@Path("findallmovementsfromclient/{id}/{token}/{expire}/{espechial}")
+	@Path("/findallmovementsfromclient/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response findAllMovementsFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response findAllMovementsFromClient(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -67,10 +67,10 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 		}
 	}
 	@GET
-	@Path("getcreditscescriptionfromclientsaccount/{id}/{token}/{expire}/{espechial}")
+	@Path("/getcreditscescriptionfromclientsaccount/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getCreditsDescriptionFromClientsAccount(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response getCreditsDescriptionFromClientsAccount(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -82,10 +82,10 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 		}
 	}
 	@GET
-	@Path("getdebitsdescriptionfromclientsaccount/{id}/{token}/{expire}/{espechial}")
+	@Path("/getdebitsdescriptionfromclientsaccount/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getDebitsDescriptionFromClientsAccount(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response getDebitsDescriptionFromClientsAccount(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -98,10 +98,10 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 	}
 	
 	@GET
-	@Path("getdebitsbydescriptionfromclient/{id}/{token}/{expire}/{espechial}")
+	@Path("/getdebitsbydescriptionfromclient/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getDebitsByDescriptionFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response getDebitsByDescriptionFromClient(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -113,10 +113,10 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 		}
 	}
 	@GET
-	@Path("getcreditsbydescriptionfromclient/{id}/{token}/{expire}/{espechial}")
+	@Path("/getcreditsbydescriptionfromclient/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getCreditsByDescriptionFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response getCreditsByDescriptionFromClient(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -128,10 +128,10 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 		}
 	}
 	@GET
-	@Path("getcreditstypefromclientsaccount/{id}/{token}/{expire}/{espechial}")
+	@Path("/getcreditstypefromclientsaccount/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getCreditsTypeFromClientsAccount(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response getCreditsTypeFromClientsAccount(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -143,10 +143,10 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 		}
 	}
 	@GET
-	@Path("getdebitstypefromclientsaccount/{id}/{token}/{expire}/{espechial}")
+	@Path("/getdebitstypefromclientsaccount/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getDebitsTypeFromClientsAccount(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response getDebitsTypeFromClientsAccount(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -159,10 +159,10 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 	}
 	
 	@GET
-	@Path("getdebitsbytypefromclient/{id}/{token}/{expire}/{espechial}")
+	@Path("/getdebitsbytypefromclient/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getDebitsByTypeFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response getDebitsByTypeFromClient(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -174,10 +174,10 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 		}
 	}
 	@GET
-	@Path("getcreditsbytypefromclient/{id}/{token}/{expire}/{espechial}")
+	@Path("/getcreditsbytypefromclient/{id}/{token}/{expire}/{espechial}")
 	@Produces("application/json")
-	public Response getCreditsByTypeFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response getCreditsByTypeFromClient(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);

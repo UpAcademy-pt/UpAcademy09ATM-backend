@@ -45,9 +45,9 @@ public class MovementRepository extends EntityRepository<Movement> {
 				.getResultList();
 	}
 
-	public Double getCreditsByTypeFromClientsAccounts(Long id, String Type) {
+	public Double getCreditsByTypeFromClientsAccounts(Long id, String type) {
 		return em.createNamedQuery("getCreditsByTypeFromClientsAccounts", Double.class).setParameter("id", id)
-				.setParameter("Type", Type).getSingleResult();
+				.setParameter("type", type).getSingleResult();
 	}
 
 	public List<String> getDebitsTypeFromClientsAccount(Long id) {
@@ -55,8 +55,8 @@ public class MovementRepository extends EntityRepository<Movement> {
 				.getResultList();
 	}
 
-	public Double getDebitsByTypeFromClientsAccounts(Long id, String Type) {
+	public Double getDebitsByTypeFromClientsAccounts(Long id, String type) {
 				
-				return em.createNamedQuery("getDebitsByTypeFromClientsAccounts", Double.class).setParameter("id", id).setParameter("Type", Type).getSingleResult();
+				return em.createNamedQuery("getDebitsByTypeFromClientsAccounts", Double.class).setParameter("id", id).setParameter("type", type).getSingleResult();
 	}
 	}

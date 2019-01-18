@@ -23,7 +23,7 @@ public class ClientRepository extends EntityRepository<Client> {
 	return em.createNamedQuery("findClientByEmail", getEntityClass()).setParameter("emailLogin", emailLogin).getSingleResult();
 	}
 	
-	public Client findClientByToken(Integer token3) {
+	public Client findClientByToken(Long token3) {
 
 	return em.createNamedQuery("findClientByToken", getEntityClass()).setParameter("tokenCheck", token3).getSingleResult();		
 	}

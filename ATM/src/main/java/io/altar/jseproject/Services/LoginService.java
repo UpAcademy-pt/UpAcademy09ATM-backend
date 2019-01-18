@@ -91,8 +91,8 @@ public class LoginService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional
 
-	public Response Logout(@PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response Logout(@PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -106,13 +106,14 @@ public class LoginService {
 
 	}
 
-	public Integer generateTokenValue(Long cliId, Date time0) {
+	public Long generateTokenValue(Long cliId, Date time0) {
 
 		Long tokenValue1 = cliId + time0.getTime();
 
 		Integer tokenValue2 = tokenValue1.hashCode();
+		Long tokenValue3 = tokenValue2.longValue();
 
-		return tokenValue2;
+		return tokenValue3;
 	}
 
 	public Long generateExpireValue(Date time0, Integer time1) {
@@ -123,10 +124,11 @@ public class LoginService {
 
 	}
 
-	public Integer generateEspechialValue(String expireValueString) {
+	public Long generateEspechialValue(String expireValueString) {
 		Integer expireValue0 = "o que faz falta é animar a malta".hashCode() + expireValueString.hashCode();
 		Integer expireValue1 = expireValue0.hashCode();
-		return expireValue1;
+		Long expireValue2=expireValue1.longValue();
+		return expireValue2;
 	}
 
 	public Response loginNormal(Client login) {
@@ -135,14 +137,14 @@ public class LoginService {
 		Integer time1 = 240;
 		Long cliId = login.getId();
 
-		Integer token = generateTokenValue(cliId, time0);
+		Long token = generateTokenValue(cliId, time0);
 		Long expire = generateExpireValue(time0, time1);
 
 		Credential credential = new Credential();
 
 		credential.setClient(business.getClientDTO(login));
 		credential.setExpire(expire);
-		credential.setToken(token);
+		credential.setToken(token.longValue());
 
 		Response response = Response.ok(credential).build();
 
@@ -158,13 +160,13 @@ public class LoginService {
 		Integer time1 = 1000000000;
 		Long cliId = login.getId();
 
-		Integer token = generateTokenValue(cliId, time0);
+		Long token = generateTokenValue(cliId, time0);
 		System.out.println(">>>>>>>>valor do token :" + token);
 
 		Long expire = generateExpireValue(time0, time1);
 		System.out.println(">>>>>>>>valor do expire:" + expire);
 
-		Integer espechial = generateEspechialValue(expire.toString());
+		Long espechial = generateEspechialValue(expire.toString());
 		System.out.println(">>>>>>>>valor do espechial :" + espechial);
 
 		Credential credential = new Credential();
@@ -184,7 +186,7 @@ public class LoginService {
 
 	public Client getClientByToken(Credential credential) {
 
-		Integer token = Integer.valueOf(credential.getToken());
+		Long token = Long.valueOf(credential.getToken());
 
 		System.out.println("valor do token :" + token);
 
@@ -237,9 +239,9 @@ public class LoginService {
 				return false;
 
 			} else {
-				Integer espechial = credential.getEspechial();
+				Long espechial = credential.getEspechial();
 				System.out.println(espechial);
-				Integer espechialValue = generateEspechialValue(credential.getExpire().toString());
+				Long espechialValue = generateEspechialValue(credential.getExpire().toString());
 System.out.println(espechialValue);
 				if ( espechial.equals(espechialValue)) {
 					System.out.println("é igual");
