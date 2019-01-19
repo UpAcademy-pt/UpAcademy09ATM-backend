@@ -55,12 +55,12 @@ public abstract class EntityService<R extends EntityBusiness<S, T>, S extends En
 			T newEntity = business.newEntity(entity);
 			
 			Long id=newEntity.getId();
-			
-			return Response.ok("A entidade com o id :"+id+" foi criada com sucesso").build();
+			if (id>0) {
+			return Response.ok("A entidade com o id :"+id+" foi criada com sucesso").build();}
+			else{
+				return Response.serverError().entity("A entidade já existe").build();}
 		} else {
-			System.out.println(">>>>>>>>>>>>> não é espechial");
-
-			
+			System.out.println(">>>>>>>>>>>>> não é espechial");	
 			return Response.serverError().entity("goToLogin").build();
 		}
 	}

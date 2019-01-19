@@ -1,6 +1,7 @@
 package io.altar.jseproject.Services;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -65,23 +66,30 @@ public class LoginService {
 		System.out.println(">>>>>>>>>>>>>>>>>>" + passwordLogin1);
 		String passwordLogin2 = passwordLogin1.toString();
 
-		Client cli = DBCLIENT.findClientByEmail(emailLogin);
-		System.out.println(">>>>>>>>login é especial?");
-		if (cli.getPassword().equals(passwordLogin2.toString())) {
+		if (DBCLIENT.findClientByEmail(emailLogin).isEmpty()) {
+System.out.println("O utilizador não se encontra registado");
+			
+			return Response.serverError().entity("O utilizador não se encontra registado").build();
 
-			if (cli.getEspechial() == false) {
-				System.out.println(">>>>>>>>login é normal");
-				return loginNormal(cli);
+
+		}else {
+			List <Client> list=DBCLIENT.findClientByEmail(emailLogin);
+			Client cli=list.get(0);
+			if (cli.getPassword().equals(passwordLogin2.toString())) {
+
+				if (cli.getEspechial() == false) {
+					System.out.println(">>>>>>>>login é normal");
+					return loginNormal(cli);
+
+				} else {
+					System.out.println(">>>>>>>>login especial");
+					return loginEspechial(cli);
+				}
 
 			} else {
-				System.out.println(">>>>>>>>login especial");
-				return loginEspechial(cli);
+				System.out.println(cli.getName() + 2);
+				return Response.status(Response.Status.NOT_FOUND).entity("Dados invalidos").build();
 			}
-
-		} else {
-			System.out.println(cli.getName() + 2);
-			return Response.status(Response.Status.NOT_FOUND).entity("Dados invalidos").build();
-
 		}
 	}
 
@@ -127,7 +135,7 @@ public class LoginService {
 	public Long generateEspechialValue(String expireValueString) {
 		Integer expireValue0 = "o que faz falta é animar a malta".hashCode() + expireValueString.hashCode();
 		Integer expireValue1 = expireValue0.hashCode();
-		Long expireValue2=expireValue1.longValue();
+		Long expireValue2 = expireValue1.longValue();
 		return expireValue2;
 	}
 
@@ -190,12 +198,13 @@ public class LoginService {
 
 		System.out.println("valor do token :" + token);
 
-		if (DBCLIENT.findClientByToken(token) == null) {
-			Client cli = new Client();
-			cli.setName("Malaquias");
-			return cli;
+List<Client> clientList=DBCLIENT.findClientByToken(token);
+		if (clientList.isEmpty()) {
+			Client errorClient = new Client();
+			errorClient .setName("Não existe");
+			return errorClient ;
 		} else {
-			Client cli = DBCLIENT.findClientByToken(token);
+			Client cli=clientList.get(0);
 			return cli;
 		}
 	}
@@ -210,7 +219,7 @@ public class LoginService {
 			Client cli = getClientByToken(credential);
 			String cliName = cli.getName();
 
-			if (cliName == "Malaquias") {
+			if (cliName.equals("Não existe")) {
 
 				return false;
 
@@ -231,32 +240,31 @@ public class LoginService {
 		} else {
 			System.out.println(">>>>>>>>credencial espechical existe");
 			Client cli = getClientByToken(credential);
-			System.out.println(">>>>>>>>>cliente encontrado através de cookie");
 			String cliName = cli.getName();
-			System.out.println(cliName);
-			if (cliName.equals("Malaquias") == true) {
+			System.out.println(">>>>>>>"+cliName);
+			if (cliName.equals("Não existe")) {
 
 				return false;
 
 			} else {
+				System.out.println(">>>>>>>>>cliente encontrado através de cookie");
+
 				Long espechial = credential.getEspechial();
-				System.out.println(espechial);
+				System.out.println(">>>>>>>>>>"+espechial);
 				Long espechialValue = generateEspechialValue(credential.getExpire().toString());
-System.out.println(espechialValue);
-				if ( espechial.equals(espechialValue)) {
-					System.out.println("é igual");
+				System.out.println(">>>>>>>>>>"+espechialValue);
+				if (espechial.equals(espechialValue)) {
+					System.out.println(">>>>>>>>> é igual");
 
 					return true;
 
 				} else {
-					System.out.println("não é igual");
+					System.out.println(">>>>>>>>não é igual");
 					return false;
 				}
 
 			}
 		}
 	}
-
-
 
 }

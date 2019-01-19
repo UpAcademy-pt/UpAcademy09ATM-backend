@@ -36,7 +36,7 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 			
 			return Response.ok(business.moneyTransfer(transfer)).build();
 		} else {
-			return Response.serverError().entity("Esta operação requer acesso especial").build();
+			return Response.serverError().entity("Necessita de fazer o Login para proceder à transação").build();
 		}
 	}
 	@POST
