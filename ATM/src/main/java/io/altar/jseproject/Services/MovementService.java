@@ -60,6 +60,8 @@ public class MovementService extends EntityService<MovementBusiness, MovementRep
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
 		credential.setToken(token);
+		
+		System.out.println(">>>>>>>>>merda");
 		if (login.verifyEspechial(credential) == true) {
 			return Response.ok(business.findAllMovementsFromClient(id)).build();
 		} else {

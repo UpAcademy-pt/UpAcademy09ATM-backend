@@ -137,15 +137,15 @@ public class LoginService {
 
 		Integer token = generateTokenValue(cliId, time0);
 		Long expire = generateExpireValue(time0, time1);
-//		Integer espechial = generateEspechialValue(expire.toString());
-//		System.out.println(">>>>>>>>valor do espechial :" + espechial);
+		Integer espechial = generateEspechialValue(expire.toString());
+		System.out.println(">>>>>>>>valor do espechial :" + espechial);
 
 		Credential credential = new Credential();
 
 		credential.setClient(business.getClientDTO(login));
 		credential.setExpire(expire);
 		credential.setToken(token);
-//		credential.setEspechial(espechial);
+		credential.setEspechial(espechial);
 
 		
 		Response response = Response.ok(credential).build();
