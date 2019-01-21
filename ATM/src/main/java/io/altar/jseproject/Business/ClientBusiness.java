@@ -17,14 +17,22 @@ public class ClientBusiness extends EntityBusiness<ClientRepository, Client> {
 
 	@Inject
 	private AccountBusiness account;
-	
+
 	@Transactional
 	@Override
 	public Client newEntity(Client cli) {
-		String pass = cli.getPassword();
-		Integer hashPass = pass.hashCode();
-		cli.setPassword(hashPass.toString());
-		return repository.addToDB(cli);
+		System.out.println(">>>>>>>>>>>"+cli.toString());
+		System.out.println(">>>>>>>>>>>"+cli.getEmail());
+		String email = cli.getEmail();
+		if (repository.findClientByEmail(email).isEmpty()) {
+			System.out.println("o email ainda não existe na base de dados");
+			String pass = cli.getPassword();
+			Integer hashPass = pass.hashCode();
+			cli.setPassword(hashPass.toString());
+			return repository.addToDB(cli);
+		} else {
+			return cli;
+		}
 	}
 
 	@Transactional
@@ -49,13 +57,14 @@ public class ClientBusiness extends EntityBusiness<ClientRepository, Client> {
 
 		while (iterator.hasNext()) {
 			Client client = iterator.next();
-			
-			ClientDTO clientDTO = getClientDTO( client);
-			
+
+			ClientDTO clientDTO = getClientDTO(client);
+
 			clientDTOList.add(clientDTO);
 		}
 		return clientDTOList;
 	}
+
 	public ClientDTO getClientDTO(Client client) {
 		ClientDTO clientDTO = new ClientDTO();
 
@@ -69,7 +78,8 @@ public class ClientBusiness extends EntityBusiness<ClientRepository, Client> {
 
 		return clientDTO;
 	}
-@Transactional
+
+	@Transactional
 	public List<AccountDTO> getAllAccountsFromClient(Long id) {
 		System.out.println(">>>>>>>>>>antes de ir buscar o cliente");
 		Client client = repository.getById(id);
@@ -80,7 +90,7 @@ public class ClientBusiness extends EntityBusiness<ClientRepository, Client> {
 		System.out.println(accountList);
 
 		List<AccountDTO> accountDTOList = account.generateAccountDTOListFromAccountList(accountList);
-System.out.println(accountDTOList);
+		System.out.println(accountDTOList);
 		return accountDTOList;
 	}
 

@@ -3,11 +3,11 @@ package io.altar.jseproject.model;
 public class Credential {
 
 	private ClientDTO client;
-	private Integer token;
+	private Long token;
 	private Long expire;
-	private Integer espechial;
+	private Long espechial;
 
-	public Credential(ClientDTO client,Integer token, Long expire, Integer espechial) {
+	public Credential(ClientDTO client,Long token, Long expire, Long espechial) {
 		this.client=client;
 		this.token = token;
 		this.expire = expire;
@@ -25,11 +25,11 @@ public class Credential {
 		this.client = client;
 	}
 
-	public Integer getToken() {
+	public Long getToken() {
 		return token;
 	}
 
-	public void setToken(Integer token) {
+	public void setToken(Long token) {
 		this.token = token;
 	}
 
@@ -41,11 +41,11 @@ public class Credential {
 		this.expire = expire;
 	}
 
-	public Integer getEspechial() {
+	public Long getEspechial() {
 		return espechial;
 	}
 
-	public void setEspechial(Integer espechial) {
+	public void setEspechial(Long espechial) {
 		this.espechial = espechial;
 	}
 	
