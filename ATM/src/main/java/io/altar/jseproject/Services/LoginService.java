@@ -67,14 +67,13 @@ public class LoginService {
 		String passwordLogin2 = passwordLogin1.toString();
 
 		if (DBCLIENT.findClientByEmail(emailLogin).isEmpty()) {
-System.out.println("O utilizador não se encontra registado");
-			
+			System.out.println("O utilizador não se encontra registado");
+
 			return Response.serverError().entity("O utilizador não se encontra registado").build();
 
-
-		}else {
-			List <Client> list=DBCLIENT.findClientByEmail(emailLogin);
-			Client cli=list.get(0);
+		} else {
+			List<Client> list = DBCLIENT.findClientByEmail(emailLogin);
+			Client cli = list.get(0);
 			if (cli.getPassword().equals(passwordLogin2.toString())) {
 
 				if (cli.getEspechial() == false) {
@@ -198,13 +197,13 @@ System.out.println("O utilizador não se encontra registado");
 
 		System.out.println("valor do token :" + token);
 
-List<Client> clientList=DBCLIENT.findClientByToken(token);
+		List<Client> clientList = DBCLIENT.findClientByToken(token);
 		if (clientList.isEmpty()) {
 			Client errorClient = new Client();
-			errorClient .setName("Não existe");
-			return errorClient ;
+			errorClient.setName("Não existe");
+			return errorClient;
 		} else {
-			Client cli=clientList.get(0);
+			Client cli = clientList.get(0);
 			return cli;
 		}
 	}
@@ -224,9 +223,17 @@ List<Client> clientList=DBCLIENT.findClientByToken(token);
 				return false;
 
 			} else {
+				Date time0 = new Date();
+				Long time1 = time0.getTime();
 
-				return true;
+				if (credential.getExpire() >= time1) {
+					
+					return false;
+				} else {
 
+					return true;
+
+				}
 			}
 		}
 	}
@@ -241,7 +248,7 @@ List<Client> clientList=DBCLIENT.findClientByToken(token);
 			System.out.println(">>>>>>>>credencial espechical existe");
 			Client cli = getClientByToken(credential);
 			String cliName = cli.getName();
-			System.out.println(">>>>>>>"+cliName);
+			System.out.println(">>>>>>>" + cliName);
 			if (cliName.equals("Não existe")) {
 
 				return false;
@@ -250,9 +257,9 @@ List<Client> clientList=DBCLIENT.findClientByToken(token);
 				System.out.println(">>>>>>>>>cliente encontrado através de cookie");
 
 				Long espechial = credential.getEspechial();
-				System.out.println(">>>>>>>>>>"+espechial);
+				System.out.println(">>>>>>>>>>" + espechial);
 				Long espechialValue = generateEspechialValue(credential.getExpire().toString());
-				System.out.println(">>>>>>>>>>"+espechialValue);
+				System.out.println(">>>>>>>>>>" + espechialValue);
 				if (espechial.equals(espechialValue)) {
 					System.out.println(">>>>>>>>> é igual");
 

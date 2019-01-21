@@ -30,7 +30,9 @@ public abstract class EntityRepository<T extends BaseEntity> {
 			em.remove(entity);
 			
 		} catch (Exception e) {
-			return "Não foi encontrada na base de dados a entidade que pertende eliminar";
+			
+			return "Não foi encontrada na base de dados a entidade que pretende eliminar";
+			
 		} 
 
 		return "A entidade foi eliminda da base de dados";

@@ -59,9 +59,14 @@ public class ClientService extends EntityService<ClientBusiness, ClientRepositor
 		Credential credential = new Credential();
 		credential.setExpire(expire);
 		credential.setToken(token);
-		if (login.verifyNormal(credential) == true) {
+		if (login.verifyEspechial(credential) == true) {
 			return Response.ok(business.getAllAccountsFromClient(id)).build();
 		} else {
+			if (login.verifyNormal(credential) == true) {
+				Client cli = login.getClientByToken(credential);
+				Long CliId = cli.getId();
+				return Response.ok(business.getAllAccountsFromClient(CliId)).build();
+			}
 			return Response.serverError().entity("goToLogin").build();
 		}
 	}
