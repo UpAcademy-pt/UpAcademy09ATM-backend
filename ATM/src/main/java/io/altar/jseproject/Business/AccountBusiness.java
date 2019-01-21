@@ -37,7 +37,7 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 		Double volume = transfer.getVolume();
 
 		String description = "Transference from Account nº" + account1Id + " to Account nº" + account2Id;
-		String type = "transfer";
+		String type = "Transfer";
 
 		
 		Account account1 = repository.getById(account1Id);
@@ -72,7 +72,7 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 
 		double debitBalance = account1.getBalance() - volume;
 
-		String type = "pickup";
+		String type = "Pickup";
 
 		if (account1.getBalance() >= volume) {
 			Movement movement1 = new Movement(account1, time, pickup.getDescription(),type ,volume, (Double) 0.0, debitBalance);
@@ -101,7 +101,7 @@ public class AccountBusiness extends EntityBusiness<AccountRepository, Account> 
 		Account account1 = repository.getById(account1Id);
 System.out.println("conta encontrada :"+account1);
 		double creditBalance = account1.getBalance() + volume;
-		String type = "deposit";
+		String type = "Deposit";
 
 		Movement movement1 = new Movement(account1, time, deposit.getDescription(),type , volume, (Double) 0.0, creditBalance);
 		mr.addToDB(movement1);

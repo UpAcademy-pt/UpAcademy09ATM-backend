@@ -19,6 +19,7 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 	@Inject
 	protected ClientRepository cr;
 
+	@Transactional
 	public MovementDTO getEntityById(Long id) {
 		Movement movement = repository.getById(id);
 
@@ -57,20 +58,20 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 			movementDTO.setBank(movement.getAccount().getBank());
 			movementDTO.setType(movement.getType());
 
-
 			movementDTOList.add(movementDTO);
 		}
 
 		return movementDTOList;
 	}
 
+	@Transactional
 	public List<MovementDTO> getAllEntity() {
 		List<Movement> movementList = repository.getAll();
 		List<MovementDTO> movementDTOList = generateMovementDTOListFromMovementList(movementList);
 
 		return movementDTOList;
 	}
-	
+
 	@Transactional
 	public List<MovementDTO> findAllMovementsFromClient(Long id) {
 		List<Movement> movementList = repository.findAllMovementsFromClient(id);
@@ -96,15 +97,14 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 		Map<String, Double> debitsByDescription = new HashMap<>();
 
 		List<String> debitsDescription = getDebitsDescriptionFromClientsAccount(id);
-		System.out.println(">>>>>>>>>>>>>"+debitsDescription + debitsDescription.toString()+"<<<<<<<<<<<<");
+		System.out.println(">>>>>>>>>>>>>" + debitsDescription + debitsDescription.toString() + "<<<<<<<<<<<<");
 
-		
 		for (String description : debitsDescription) {
-		
-		System.out.println(">>>>>>>>e aqui???");
 
-		Double debitByDescription= repository.getDebitsByDescriptionFromClientsAccounts(id,description);
-			System.out.println(">>>>>>>>debitByDescription :"+debitByDescription);
+			System.out.println(">>>>>>>>e aqui???");
+
+			Double debitByDescription = repository.getDebitsByDescriptionFromClientsAccounts(id, description);
+			System.out.println(">>>>>>>>debitByDescription :" + debitByDescription);
 
 			debitsByDescription.put(description, debitByDescription);
 		}
@@ -117,15 +117,14 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 		Map<String, Double> creditsByDescription = new HashMap<>();
 
 		List<String> creditsDescription = getCreditsDescriptionFromClientsAccount(id);
-		System.out.println(">>>>>>>>>>>>>"+creditsDescription + creditsDescription.toString()+"<<<<<<<<<<<<");
+		System.out.println(">>>>>>>>>>>>>" + creditsDescription + creditsDescription.toString() + "<<<<<<<<<<<<");
 
-		
 		for (String description : creditsDescription) {
-		
-		System.out.println(">>>>>>>>e aqui???");
 
-		Double debitByDescription= repository.getCreditsByDescriptionFromClientsAccounts(id,description);
-			System.out.println(">>>>>>>>dcreditByDescription :"+debitByDescription);
+			System.out.println(">>>>>>>>e aqui???");
+
+			Double debitByDescription = repository.getCreditsByDescriptionFromClientsAccounts(id, description);
+			System.out.println(">>>>>>>>debitByDescription :" + debitByDescription);
 
 			creditsByDescription.put(description, debitByDescription);
 		}
@@ -150,36 +149,34 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 		Map<String, Double> debitsByType = new HashMap<>();
 
 		List<String> debitsType = getDebitsTypeFromClientsAccount(id);
-		System.out.println(">>>>>>>>>>>>>"+debitsType + debitsType.toString()+"<<<<<<<<<<<<");
+		System.out.println(">>>>>>>>>>>>>" + debitsType + debitsType.toString() + "<<<<<<<<<<<<");
 
-		
-		for (String Type : debitsType) {
-		
-		System.out.println(">>>>>>>>e aqui???");
+		for (String type : debitsType) {
 
-		Double debitByType= repository.getDebitsByTypeFromClientsAccounts(id,Type);
-			System.out.println(">>>>>>>>debitByType :"+debitByType);
+			System.out.println(">>>>>>>>e aqui???");
 
-			debitsByType.put(Type, debitByType);
+			Double debitByType = repository.getDebitsByTypeFromClientsAccounts(id, type);
+			System.out.println(">>>>>>>>debitByType :" + debitByType);
+
+			debitsByType.put(type, debitByType);
 		}
 		System.out.println(debitsByType.toString());
 		return debitsByType;
 	}
-	
+
 	@Transactional
 	public Map<String, Double> getCreditsByTypeFromClient(Long id) {
 		Map<String, Double> creditsByType = new HashMap<>();
 
 		List<String> creditsType = getCreditsTypeFromClientsAccount(id);
-		System.out.println(">>>>>>>>>>>>>"+creditsType + creditsType.toString()+"<<<<<<<<<<<<");
+		System.out.println(">>>>>>>>>>>>>" + creditsType + creditsType.toString() + "<<<<<<<<<<<<");
 
-		
 		for (String Type : creditsType) {
-		
-		System.out.println(">>>>>>>>e aqui???");
 
-		Double debitByType= repository.getCreditsByTypeFromClientsAccounts(id,Type);
-			System.out.println(">>>>>>>>debitByType :"+debitByType);
+			System.out.println(">>>>>>>>e aqui???");
+
+			Double debitByType = repository.getCreditsByTypeFromClientsAccounts(id, Type);
+			System.out.println(">>>>>>>>debitByType :" + debitByType);
 
 			creditsByType.put(Type, debitByType);
 		}
@@ -188,4 +185,3 @@ public class MovementBusiness extends EntityBusiness<MovementRepository, Movemen
 	}
 
 }
-

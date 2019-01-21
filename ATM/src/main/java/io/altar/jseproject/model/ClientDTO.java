@@ -9,10 +9,10 @@ public class ClientDTO {
 	private String email;
 	private String password;
 	private Long tel;
-	private Integer token;
+	private Long token;
 	private Boolean espechial;
 
-	public ClientDTO(Long id, String name, String email, String password, Long tel, Integer token, Date time,
+	public ClientDTO(Long id, String name, String email, String password, Long tel, Long token, Date time,
 			Boolean espechial) {
 		this.name = name;
 		this.email = email;
@@ -68,11 +68,11 @@ public class ClientDTO {
 		this.tel = tel;
 	}
 
-	public Integer getToken() {
+	public Long getToken() {
 		return token;
 	}
 
-	public void setToken(Integer token) {
+	public void setToken(Long token) {
 		this.token = token;
 	}
 

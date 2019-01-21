@@ -27,7 +27,7 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	@Path("/transfer/{token}/{expire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response transfer(TransferObject transfer,@PathParam("token") Integer token, @PathParam("expire") Long expire) {
+	public Response transfer(TransferObject transfer,@PathParam("token") Long token, @PathParam("expire") Long expire) {
 		Credential credential = new Credential();
 		credential.setExpire(expire);
 		credential.setToken(token);
@@ -36,14 +36,14 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 			
 			return Response.ok(business.moneyTransfer(transfer)).build();
 		} else {
-			return Response.serverError().entity("Esta operação requer acesso especial").build();
+			return Response.serverError().entity("Necessita de fazer o Login para proceder à transação").build();
 		}
 	}
 	@POST
 	@Path("/deposit/{token}/{expire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deposit(TransferObject deposit,@PathParam("token") Integer token, @PathParam("expire") Long expire) {
+	public Response deposit(TransferObject deposit,@PathParam("token") Long token, @PathParam("expire") Long expire) {
 		Credential credential = new Credential();
 		credential.setExpire(expire);
 		credential.setToken(token);
@@ -59,7 +59,7 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	@Path("/pickup/{token}/{expire}/{espechial}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response pickup(TransferObject pickup,@PathParam("token") Integer token, @PathParam("expire") Long expire) {
+	public Response pickup(TransferObject pickup,@PathParam("token") Long token, @PathParam("expire") Long expire) {
 		Credential credential = new Credential();
 		credential.setExpire(expire);
 		credential.setToken(token);
@@ -70,10 +70,10 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 		}
 	}
 	@GET
-	@Path("/{id}/{token}/{expire}/{espechial}")
-	@Produces("application/json")
-	public Response getEntityById(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	@Path("/teste/{id}/{token}/{expire}/{espechial}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getEntityById(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -87,8 +87,8 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	
 	@GET
 	@Path("getallmovementsfromaccount/{id}/{token}/{expire}")
-	@Produces("application/json")
-	public Response getAllmovementsFromAccount(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllmovementsFromAccount(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire) {
 		Credential credential = new Credential();
 		credential.setExpire(expire);
 		credential.setToken(token);
@@ -101,8 +101,10 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	@GET
 	@Path("/listentity/{token}/{expire}/{espechial}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listEntity(@PathParam("token") Integer token, @PathParam("expire") Long expire,
-			@PathParam("espechial") Integer espechial) {
+	public Response listEntity(@PathParam("token") Long token, @PathParam("expire") Long expire,
+			@PathParam("espechial") Long espechial) {
+		
+		System.out.println(">>>>>>>> chegas aqui ao menos?");
 		Credential credential = new Credential();
 		credential.setEspechial(espechial);
 		credential.setExpire(expire);
@@ -116,8 +118,8 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	
 	@GET
 	@Path("getbanksfromclient/{id}/{token}/{expire}")
-	@Produces("application/json")
-	public Response getBanksFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBanksFromClient(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire) {
 		Credential credential = new Credential();
 		credential.setExpire(expire);
 		credential.setToken(token);
@@ -129,8 +131,8 @@ public class AccountService extends EntityService<AccountBusiness, AccountReposi
 	}
 	@GET
 	@Path("getbanksbalancefromclient/{id}/{token}/{expire}")
-	@Produces("application/json")
-	public Response getBanksBalanceFromClient(@PathParam("id") long id, @PathParam("token") Integer token, @PathParam("expire") Long expire) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBanksBalanceFromClient(@PathParam("id") Long id, @PathParam("token") Long token, @PathParam("expire") Long expire) {
 		Credential credential = new Credential();
 		credential.setExpire(expire);
 		credential.setToken(token);

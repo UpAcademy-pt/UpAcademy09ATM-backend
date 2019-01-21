@@ -24,10 +24,18 @@ public abstract class EntityRepository<T extends BaseEntity> {
 	}
 
 	public String deleteEntity(Long id) {
-		T entity = em.find(getEntityClass(), id);
-		em.remove(entity);
+		try {
+			T entity = em.find(getEntityClass(), id);
 
-		return "O produto foi elimindo da base de dados";
+			em.remove(entity);
+			
+		} catch (Exception e) {
+			
+			return "Não foi encontrada na base de dados a entidade que pretende eliminar";
+			
+		} 
+
+		return "A entidade foi eliminda da base de dados";
 	}
 
 	public T changeEntity(T entity) {
