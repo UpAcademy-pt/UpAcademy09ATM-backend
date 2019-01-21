@@ -146,7 +146,7 @@ public class LoginService {
 
 		Long token = generateTokenValue(cliId, time0);
 		Long expire = generateExpireValue(time0, time1);
-		Integer espechial = generateEspechialValue(expire.toString());
+		Long espechial = generateEspechialValue(expire.toString());
 		System.out.println(">>>>>>>>valor do espechial :" + espechial);
 
 		Credential credential = new Credential();
@@ -228,9 +228,11 @@ public class LoginService {
 			} else {
 				Date time0 = new Date();
 				Long time1 = time0.getTime();
+				System.out.println(">>>>>>>>>>> tempo atual :" + time1);
 
 				if (credential.getExpire() >= time1) {
-					
+
+					Logout(credential.getToken(), credential.getExpire(), credential.getExpire());
 					return false;
 				} else {
 
@@ -252,6 +254,7 @@ public class LoginService {
 			Client cli = getClientByToken(credential);
 			String cliName = cli.getName();
 			System.out.println(">>>>>>>" + cliName);
+
 			if (cliName.equals("Não existe")) {
 
 				return false;
@@ -263,17 +266,30 @@ public class LoginService {
 				System.out.println(">>>>>>>>>>" + espechial);
 				Long espechialValue = generateEspechialValue(credential.getExpire().toString());
 				System.out.println(">>>>>>>>>>" + espechialValue);
+
 				if (espechial.equals(espechialValue)) {
 					System.out.println(">>>>>>>>> é igual");
 
-					return true;
+					Date time0 = new Date();
+					Long time1 = time0.getTime();
+					System.out.println(">>>>>>>>>>> tempo atual :" + time1);
 
+					if (credential.getExpire() >= time1) {
+
+						Logout(credential.getToken(), credential.getExpire(), credential.getExpire());
+
+						return false;
+
+					} else {
+						return true;
+
+					}
 				} else {
 					System.out.println(">>>>>>>>não é igual");
 					return false;
 				}
-
 			}
+
 		}
 	}
 
